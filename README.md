@@ -1,0 +1,2 @@
+# repomall
+mall för studentrepon
