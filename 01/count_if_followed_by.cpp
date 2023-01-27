@@ -7,7 +7,7 @@
 
 int count_if_followed_by (char const * p, int len, char a, char b) {
   int count = 0;
-  char const * end = p + len;
+  char const * end = p + len; 
 
   while (p != end) {
     if (*p == a && *(p+1) == b)

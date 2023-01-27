@@ -33,23 +33,23 @@ public:
  void runTest() { suite_MyTestSuite.testCount_if_followed_by(); }
 } testDescription_suite_MyTestSuite_testCount_if_followed_by;
 
-static class TestDescription_suite_MyTestSuite_test_validInput : public CxxTest::RealTestDescription {
+static class TestDescription_suite_MyTestSuite_testNo_Match : public CxxTest::RealTestDescription {
 public:
- TestDescription_suite_MyTestSuite_test_validInput() : CxxTest::RealTestDescription( Tests_MyTestSuite, suiteDescription_MyTestSuite, 15, "test_validInput" ) {}
- void runTest() { suite_MyTestSuite.test_validInput(); }
-} testDescription_suite_MyTestSuite_test_validInput;
+ TestDescription_suite_MyTestSuite_testNo_Match() : CxxTest::RealTestDescription( Tests_MyTestSuite, suiteDescription_MyTestSuite, 16, "testNo_Match" ) {}
+ void runTest() { suite_MyTestSuite.testNo_Match(); }
+} testDescription_suite_MyTestSuite_testNo_Match;
 
-static class TestDescription_suite_MyTestSuite_test_emptyInput : public CxxTest::RealTestDescription {
+static class TestDescription_suite_MyTestSuite_testEmpty_Data : public CxxTest::RealTestDescription {
 public:
- TestDescription_suite_MyTestSuite_test_emptyInput() : CxxTest::RealTestDescription( Tests_MyTestSuite, suiteDescription_MyTestSuite, 21, "test_emptyInput" ) {}
- void runTest() { suite_MyTestSuite.test_emptyInput(); }
-} testDescription_suite_MyTestSuite_test_emptyInput;
+ TestDescription_suite_MyTestSuite_testEmpty_Data() : CxxTest::RealTestDescription( Tests_MyTestSuite, suiteDescription_MyTestSuite, 21, "testEmpty_Data" ) {}
+ void runTest() { suite_MyTestSuite.testEmpty_Data(); }
+} testDescription_suite_MyTestSuite_testEmpty_Data;
 
-static class TestDescription_suite_MyTestSuite_test_wrongInput : public CxxTest::RealTestDescription {
+static class TestDescription_suite_MyTestSuite_testOff_By_One_Error : public CxxTest::RealTestDescription {
 public:
- TestDescription_suite_MyTestSuite_test_wrongInput() : CxxTest::RealTestDescription( Tests_MyTestSuite, suiteDescription_MyTestSuite, 27, "test_wrongInput" ) {}
- void runTest() { suite_MyTestSuite.test_wrongInput(); }
-} testDescription_suite_MyTestSuite_test_wrongInput;
+ TestDescription_suite_MyTestSuite_testOff_By_One_Error() : CxxTest::RealTestDescription( Tests_MyTestSuite, suiteDescription_MyTestSuite, 26, "testOff_By_One_Error" ) {}
+ void runTest() { suite_MyTestSuite.testOff_By_One_Error(); }
+} testDescription_suite_MyTestSuite_testOff_By_One_Error;
 
 #include <cxxtest/Root.cpp>
 const char* CxxTest::RealWorldDescription::_worldName = "cxxtest";
