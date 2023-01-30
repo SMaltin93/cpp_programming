@@ -12,9 +12,7 @@ int count_if_followed_by (char const * p, int len, char a, char b) {
   while (p != end) {
     if (*p == a && *(p+1) == b)
       count += 1;
-
     ++p;
   }
-
   return count;
 }
