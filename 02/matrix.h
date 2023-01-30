@@ -57,7 +57,7 @@ public:
     void remove_column(size_t col);
 
     // iterators
-    typedef T* iterator; 
+    typedef T* iterator;  
 
     iterator begin();
     iterator end();
@@ -66,7 +66,7 @@ private:
     size_t m_rows;
     size_t m_cols;
     size_t m_capacity;
-    T * m_vec;
+    T * m_vec; // pointer to the first element of the matrix
 };
 
 // input/output operators
@@ -152,6 +152,7 @@ Matrix<T> & Matrix<T>::operator=(const Matrix<T> & other) {
     m_capacity = other.m_capacity;
     m_vec = new T[m_capacity];
     copy(other.m_vec, other.m_vec + m_capacity, m_vec); // Copy the elements from other.m_vec to m_vec
+    return *this;
 }
 
 template<typename T>
@@ -164,6 +165,7 @@ Matrix<T> & Matrix<T>::operator=(Matrix<T> && other) noexcept {
     other.m_rows = 0; // Set other.m_rows to 0
     other.m_cols = 0; // Set other.m_cols to 0
     other.m_capacity = 0; // Set other.m_capacity to 0
+    return *this;
 }
 
 template<typename T>
@@ -217,9 +219,8 @@ Matrix<T> Matrix<T>::operator*(const Matrix<T> & other) const {
             }
         }
     }
-
     return result;
-   
+
 }
 
 template<typename T>
@@ -228,9 +229,12 @@ Matrix<T> Matrix<T>::operator+(const Matrix<T> & other) const {
     if (m_rows != other.m_rows && m_cols != other.m_cols) {
         throw invalid_argument("wrong dimensions");
     }   
+    
+    Matrix<T> result(m_rows, m_cols);
     for (int i = 0; i < m_capacity; i++) {
-        m_vec[i] += other.m_vec[i];
+        result.m_vec[i] = m_vec[i] + other.m_vec[i];
     }
+    return result;
     
     
 }
@@ -238,43 +242,79 @@ Matrix<T> Matrix<T>::operator+(const Matrix<T> & other) const {
 template<typename T>
 Matrix<T> Matrix<T>::operator-(const Matrix<T> & other) const {
     // subtraction of two matrices
-     // addition of two matrices
     if (m_rows != other.m_rows && m_cols != other.m_cols) {
         throw invalid_argument("wrong dimensions");
-    }
+    }   
+    
+    Matrix<T> result(m_rows, m_cols);
     for (int i = 0; i < m_capacity; i++) {
-        m_vec[i] -= other.m_vec[i];
+        result.m_vec[i] = m_vec[i] - other.m_vec[i];
     }
+    return result;
 }
 
 template<typename T>
 void Matrix<T>::operator*=(const Matrix<T> & other) {
-   if (m_rows != other.m_cols || m_cols != other.m_rows) {
-    throw invalid_argument("wrong dimensions");
-   }
+   if (m_cols != other.m_rows) {
+        throw invalid_argument("Wrong dimensions for multiplication");
+    }
+    // we nedd do m = m * m1;
+    Matrix<T> result(m_rows, other.m_cols); // Create a matrix with the correct dimensions
+    for (int row = 0; row < m_rows; row++) {
+        for (int col = 0; col < other.m_cols; col++) {
+            for (int j = 0; j < m_cols; j++) {
+                result.m_vec[row * result.m_cols + col] += m_vec[row * m_cols + j] * other.m_vec[j * other.m_cols + col];
+                // that mean m1(row, col) += m1(row, j) * m2(j, col);
+            }
+        }
+    }
+    // we need to move the result to m1
+    *this = result; // that mean m = result 
 
-   
+
    
 }
 
 template<typename T>
 void Matrix<T>::operator+=(const Matrix<T> & other) {
-    // Implementation goes here
+
+    // addition of two matrices
+    if (m_rows != other.m_rows && m_cols != other.m_cols) {
+        throw invalid_argument("wrong dimensions");
+    }   
+    // we nedd do m = m + m1;
+    Matrix<T> result(m_rows, m_cols);
+    for (int i = 0; i < m_capacity; i++) {
+        result.m_vec[i] = m_vec[i] + other.m_vec[i];
+    }
+    *this = result; // that mean m = result
+    
 }
 
 template<typename T>
 void Matrix<T>::operator-=(const Matrix<T> & other) {
-    // Implementation goes here
+    // subtraction of two matrices
+    if (m_rows != other.m_rows && m_cols != other.m_cols) {
+        throw invalid_argument("wrong dimensions");
+    }   
+    Matrix<T> result(m_rows, m_cols);
+    for (int i = 0; i < m_capacity; i++) {
+        result.m_vec[i] = m_vec[i] - other.m_vec[i];
+    }
+    *this = result; // that mean m = result
 }
 
 template<typename T>
 void Matrix<T>::reset() {
-    // Implementation goes here
+    // we need to reset the matrix to zero
+    *this = Matrix<T>();
 }
 
 template<typename T>
 void Matrix<T>::insert_row(size_t row) {
-    // Implementation goes here
+    //Implement insert_row which inserts a row of zeroes before a given row number.
+    // If the row number is greater than the number of rows, the new row is appended to the end of the matrix.
+
 }
 
 template<typename T>
@@ -284,7 +324,21 @@ void Matrix<T>::append_row(size_t row) {
 
 template<typename T>
 void Matrix<T>::remove_row(size_t row) {
-    // Implementation goes here
+    // erases the entire row at a given row number.
+    if (row > m_rows) {
+        throw invalid_argument("Out of range");
+    }
+    int startRow = 0;
+    for(int i = 0; i < m_rows; i++) {
+        if (i != row) {
+            for (int j = 0; j < m_cols; j++) {
+               (*this)(startRow, j) = (*this)(i, j);
+            }
+            startRow++;
+        }  
+    }
+    m_rows--;
+
 }
 
 template<typename T>
@@ -299,7 +353,25 @@ void Matrix<T>::append_column(size_t col) {
 
 template<typename T>
 void Matrix<T>::remove_column(size_t col) {
-    // Implementation goes here
+    // Check if the column value is within range
+    if (col >= m_cols) {
+        throw invalid_argument("Out of range");
+    }
+    // Create a new matrix with updated number of columns
+    Matrix<T> newMatrix(m_rows, m_cols - 1);
+    // Copy all elements from the matrix excluding the specified column
+    for (int i = 0; i < m_rows; i++) {
+        int newCol = 0;
+        for (int j = 0; j < m_cols; j++) {
+            if (j == col) {
+                continue;
+            }
+            newMatrix(i, newCol) = (*this)(i, j);
+            newCol++;
+        }
+    }
+    // Replace the old matrix with the new matrix
+    *this = newMatrix;
 }
 
 template<typename T>

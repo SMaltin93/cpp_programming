@@ -1,13 +1,14 @@
 // mytest.h
 #include <cxxtest/TestSuite.h>
+#include <bits/stdc++.h>
 #include "matrix.h"
 
 class MyTestSuite : public CxxTest::TestSuite {
    
-public: 
+public:  
     void testDefaultConstructor() {  //  Matrix() 1
         Matrix<int> m;
-        TS_ASSERT_EQUALS(m.rows(), 0);
+        TS_ASSERT_EQUALS(m.rows(), 0); 
         TS_ASSERT_EQUALS(m.cols(), 0);
     }
     void testDimensionConstructor() { // Matrix(size_t dim); 2
@@ -67,10 +68,10 @@ public:
 
     void testOperatorEqualMove() { // Matrix<T> & operator=(Matrix<T> && other) noexcept; 8
         Matrix<int> m1(1, 2); // 1 row, 2 columns
-        Matrix<int> m2 = std::move(m1); // move constructor
+        Matrix<int> m2 = std::move(m1); // move constructor that mean move m1 to m2
         TS_ASSERT_EQUALS(m1.rows(), 0);
-        TS_ASSERT_EQUALS(m1.cols(), 0);
-        TS_ASSERT_EQUALS(m2.rows(), 1);
+        TS_ASSERT_EQUALS(m1.cols(), 0); 
+        TS_ASSERT_EQUALS(m2.rows(), 1);  
         TS_ASSERT_EQUALS(m2.cols(), 2);
     }
     // ~Matrix();   
@@ -126,21 +127,131 @@ public:
         TS_ASSERT_EQUALS(m3(1, 0), 3);
         TS_ASSERT_EQUALS(m3(1, 1), 6);
     }
-    // Matrix<T> operator+(const Matrix<T> & other) const;
     void testAdditionOperator () {   // Matrix<T> operator+(const Matrix<T> & other) const; 15
         // 1 2  1 2   =   2 4 
         // 1 2  1 2       2 4
         Matrix<int> m1({1, 2, 1, 2});
-        Matrix<int> m2({1, 2, 1, 2});
-        Matrix<int> m3 = m1 + m2;
-        TS_ASSERT_EQUALS(m3.rows(), 2);
+        Matrix<int> m2({1, 2, 1, 2}); 
+        Matrix<int> m3 = m1 + m2; 
+        TS_ASSERT_EQUALS(m3.rows(), 2); 
         TS_ASSERT_EQUALS(m3.cols(), 2);
-    }
-    // Matrix<T> operator-(const Matrix<T> & other) const;
+        TS_ASSERT_EQUALS(m3(0, 0), 2);
+        TS_ASSERT_EQUALS(m3(0, 1), 4);
+        TS_ASSERT_EQUALS(m3(1, 0), 2);
+        TS_ASSERT_EQUALS(m3(1, 1), 4);
 
-    // void operator*=(const Matrix<T> & other); 
-    // void operator+=(const Matrix<T> & other);
+    }
+    
+     void testSubtractionOperator () {   // Matrix<T> operator-(const Matrix<T> & other) const; 16
+        // 1 2  1 2   =   0 0 
+        // 1 2  1 2       0 0
+        Matrix<int> m1({1, 2, 1, 2});
+        Matrix<int> m2({1, 2, 1, 2}); 
+        Matrix<int> m3 = m1 - m2; 
+        TS_ASSERT_EQUALS(m3.rows(), 2); 
+        TS_ASSERT_EQUALS(m3.cols(), 2);
+        TS_ASSERT_EQUALS(m3(0, 0), 0);
+        TS_ASSERT_EQUALS(m3(0, 1), 0);
+        TS_ASSERT_EQUALS(m3(1, 0), 0);
+        TS_ASSERT_EQUALS(m3(1, 1), 0);
+    }
+    // void operator*=(const Matrix<T> & other);
+    void testMultiplicationOperatorEqual () {   // void operator*=(const Matrix<T> & other); 17
+        // 1 2  1 2   =   3 6 
+        // 1 2  1 2       3 6
+        Matrix<int> m1({1, 2, 1, 2});
+        Matrix<int> m2({1, 2, 1, 2});  
+        m1 *= m2; // that mean, m1 = m1 * m2; 
+        TS_ASSERT_EQUALS(m1.rows(), 2);  
+        TS_ASSERT_EQUALS(m1.cols(), 2);
+        TS_ASSERT_EQUALS(m1(0, 0), 3);
+        TS_ASSERT_EQUALS(m1(0, 1), 6);
+        TS_ASSERT_EQUALS(m1(1, 0), 3); 
+        TS_ASSERT_EQUALS(m1(1, 1), 6);
+    } 
+    void testAdditionOperatorEqual () {   // void operator+=(const Matrix<T> & other); 18
+        // 1 2  1 2   =   2 4 
+        // 1 2  1 2       2 4
+        Matrix<int> m1({1, 2, 1, 2});
+        Matrix<int> m2({1, 2, 1, 2});  
+        m1 += m2; // that mean, m1 = m1 + m2; 
+        TS_ASSERT_EQUALS(m1.rows(), 2);  
+        TS_ASSERT_EQUALS(m1.cols(), 2);
+        TS_ASSERT_EQUALS(m1(0, 0), 2);
+        TS_ASSERT_EQUALS(m1(0, 1), 4);
+        TS_ASSERT_EQUALS(m1(1, 0), 2); 
+        TS_ASSERT_EQUALS(m1(1, 1), 4);
+    }
     // void operator-=(const Matrix<T> & other);
+    void testSubtractionOperatorEqual () {   // void operator-=(const Matrix<T> & other); 19
+        // 1 2  1 2   =   0 0 
+        // 1 2  1 2       0 0
+        Matrix<int> m1({1, 2, 1, 2});
+        Matrix<int> m2({1, 2, 1, 2});  
+        m1 -= m2; // that mean, m1 = m1 - m2; 
+        TS_ASSERT_EQUALS(m1.rows(), 2);  
+        TS_ASSERT_EQUALS(m1.cols(), 2);
+        TS_ASSERT_EQUALS(m1(0, 0), 0);
+        TS_ASSERT_EQUALS(m1(0, 1), 0);
+        TS_ASSERT_EQUALS(m1(1, 0), 0); 
+        TS_ASSERT_EQUALS(m1(1, 1), 0);
+    }
+
+    
+  // methods###########################methods######################methods#########
+
+
+    void testReset() {   // void reset(); 20
+        // 1 2  1 2   =   0 0 
+        // 1 2  1 2       0 0
+        Matrix<int> m1({1, 2, 1, 2});
+        m1.reset();  
+        TS_ASSERT_EQUALS(m1.rows(), 0);  
+        TS_ASSERT_EQUALS(m1.cols(), 0); 
+    }
+
+
+    // void append_row(size_t row);
+    // void remove_row(size_t row); 
+    void testRemoveRow() {   // void remove_row(size_t row); 21
+        // 1 2   =   1 2
+        // 3 4             
+        Matrix<int> m1(2, 2); 
+        m1(0, 0) = 1;
+        m1(0, 1) = 2;
+        m1(1, 0) = 3;
+        m1(1, 1) = 4;
+        m1.remove_row(1);   
+        TS_ASSERT_EQUALS(m1.rows(), 1);  
+        TS_ASSERT_EQUALS(m1.cols(), 2);  
+        TS_ASSERT_EQUALS(m1(0, 0), 1);
+        TS_ASSERT_EQUALS(m1(0, 1), 2);
+      
+    }
+    // void insert_column(size_t col);
+    // void append_column(size_t col);
+    // void remove_column(size_t col);
+    void testRemoveColumn() {   // void remove_column(size_t col); 22
+        // 1 2   =   1 
+        // 3 4       3
+        Matrix<int> m1(2, 2); 
+        m1(0, 0) = 1;  
+        m1(0, 1) = 2;  
+        m1(1, 0) = 3;   
+        m1(1, 1) = 4;  
+        m1.remove_column(1);   
+        TS_ASSERT_EQUALS(m1.rows(), 2);  
+        TS_ASSERT_EQUALS(m1.cols(), 1); 
+        TS_ASSERT_EQUALS(m1(0, 0), 1);
+        TS_ASSERT_EQUALS(m1(1, 0), 3);   
+      
+    }  
+
+    // // iterators
+    // typedef T* iterator; 
+
+    // iterator begin();
+    // iterator end();
 
 
 };
