@@ -313,13 +313,47 @@ void Matrix<T>::reset() {
 template<typename T>
 void Matrix<T>::insert_row(size_t row) {
     //Implement insert_row which inserts a row of zeroes before a given row number.
-    // If the row number is greater than the number of rows, the new row is appended to the end of the matrix.
+    if (row > m_rows || row < 0) {
+        throw invalid_argument("out of the rang");
+    }
 
+    Matrix<T> result(m_rows + 1, m_cols);
+    int newRow =0;
+    for (int i = 0; i < m_rows; i++, newRow++) {
+        if(row == i) {
+            for (int j = 0; j < m_cols; j++) {
+                result(row, j) = 0; 
+            } 
+            newRow = row + 1;
+        }
+        for(int j = 0; j < m_cols; j++) {
+            result(newRow, j) = (*this)(i,j);
+        }       
+    }
+    *this = result;
 }
 
 template<typename T>
 void Matrix<T>::append_row(size_t row) {
-    // Implementation goes here
+     //we need to Implement append_row which inserts a row of zeroes after a given row number.   
+    if (row > m_rows || row < 0) {
+        throw invalid_argument("out of the rang");
+    }
+    Matrix<T> result(m_rows + 1, m_cols);
+    int newRow =0;
+    for (int i = 0; i < m_rows; i++, newRow++) {
+
+        for(int j = 0; j < m_cols; j++) {
+            result(newRow, j) = (*this)(i,j);
+        } 
+        if(row == i) {
+            for (int j = 0; j < m_cols; j++) {
+                result(row + 1, j) = 0; 
+            } 
+            newRow = row + 2;
+        }      
+    }
+    *this = result; 
 }
 
 template<typename T>
@@ -338,17 +372,51 @@ void Matrix<T>::remove_row(size_t row) {
         }  
     }
     m_rows--;
-
 }
 
 template<typename T>
 void Matrix<T>::insert_column(size_t col) {
-    // Implementation goes here
+    // Implement insert_column which inserts a column of zeroes before a given column number.
+    if (col > m_cols || col < 0) {
+        throw invalid_argument("out of the rang");
+    }
+    Matrix<T> result(m_rows, m_cols + 1);
+    int newCol =0;
+    //add the column before the given column
+    for (int i = 0; i < m_cols; i++, newCol++) {
+        if(col == i) {
+            for (int j = 0; j < m_rows; j++) {
+                result(j, col) = 0; 
+            } 
+            newCol = col + 1;
+        }
+        for(int j = 0; j < m_rows; j++) {
+            result(j, newCol) = (*this)(j,i);
+        }       
+    }
+    *this = result;
 }
 
 template<typename T>
 void Matrix<T>::append_column(size_t col) {
-    // Implementation goes here
+   //Implement append_column which inserts a column of zeroes after a given column number.
+     if (col > m_cols || col < 0) {
+        throw invalid_argument("out of the rang");
+    }
+    Matrix<T> result(m_rows, m_cols + 1);
+    int newCol =0;
+    for (int i = 0; i < m_cols; i++, newCol++) {
+         for(int j = 0; j < m_rows; j++) {
+            result(j, newCol) = (*this)(j,i);
+        } 
+        if(col == i) {
+            for (int j = 0; j < m_rows; j++) {
+                result(j, col + 1 ) = 0; 
+            } 
+            newCol = col + 2;
+        }      
+    }
+    *this = result;
 }
 
 template<typename T>
@@ -376,12 +444,14 @@ void Matrix<T>::remove_column(size_t col) {
 
 template<typename T>
 typename Matrix<T>::iterator Matrix<T>::begin() {
-   return m_vec; // return the iterator to the first element
+   //returns the pointer to the first element of the matrix.
+    return m_vec; // return the iterator to the first element
 }
 
 template<typename T>
 typename Matrix<T>::iterator Matrix<T>::end() {
-    return m_vec + m_capacity; // return the iterator to the last element
+    //returns the pointer to the element after the last element 
+    return m_vec + m_rows * m_cols; // 
 }
 
 template<typename T>
@@ -396,9 +466,11 @@ std::ostream & operator<<(std::ostream & os, const Matrix<T> & m) {
 
 template<typename T>
 Matrix<T> identity(size_t dim) {
-    return Matrix<T>(dim, dim); // identity matrix
+    Matrix<T> result(dim, dim);
+    for (int i = 0; i < dim; i++) {
+        result(i, i) = 1;
+    }
+    return result;
 }
-
-
 
 #endif //MATRIX_H

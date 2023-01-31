@@ -137,27 +137,69 @@ public:
 
 static class TestDescription_suite_MyTestSuite_testSubtractionOperatorEqual : public CxxTest::RealTestDescription {
 public:
- TestDescription_suite_MyTestSuite_testSubtractionOperatorEqual() : CxxTest::RealTestDescription( Tests_MyTestSuite, suiteDescription_MyTestSuite, 186, "testSubtractionOperatorEqual" ) {}
+ TestDescription_suite_MyTestSuite_testSubtractionOperatorEqual() : CxxTest::RealTestDescription( Tests_MyTestSuite, suiteDescription_MyTestSuite, 185, "testSubtractionOperatorEqual" ) {}
  void runTest() { suite_MyTestSuite.testSubtractionOperatorEqual(); }
 } testDescription_suite_MyTestSuite_testSubtractionOperatorEqual;
 
 static class TestDescription_suite_MyTestSuite_testReset : public CxxTest::RealTestDescription {
 public:
- TestDescription_suite_MyTestSuite_testReset() : CxxTest::RealTestDescription( Tests_MyTestSuite, suiteDescription_MyTestSuite, 204, "testReset" ) {}
+ TestDescription_suite_MyTestSuite_testReset() : CxxTest::RealTestDescription( Tests_MyTestSuite, suiteDescription_MyTestSuite, 203, "testReset" ) {}
  void runTest() { suite_MyTestSuite.testReset(); }
 } testDescription_suite_MyTestSuite_testReset;
 
+static class TestDescription_suite_MyTestSuite_testAppendRow : public CxxTest::RealTestDescription {
+public:
+ TestDescription_suite_MyTestSuite_testAppendRow() : CxxTest::RealTestDescription( Tests_MyTestSuite, suiteDescription_MyTestSuite, 214, "testAppendRow" ) {}
+ void runTest() { suite_MyTestSuite.testAppendRow(); }
+} testDescription_suite_MyTestSuite_testAppendRow;
+
 static class TestDescription_suite_MyTestSuite_testRemoveRow : public CxxTest::RealTestDescription {
 public:
- TestDescription_suite_MyTestSuite_testRemoveRow() : CxxTest::RealTestDescription( Tests_MyTestSuite, suiteDescription_MyTestSuite, 216, "testRemoveRow" ) {}
+ TestDescription_suite_MyTestSuite_testRemoveRow() : CxxTest::RealTestDescription( Tests_MyTestSuite, suiteDescription_MyTestSuite, 235, "testRemoveRow" ) {}
  void runTest() { suite_MyTestSuite.testRemoveRow(); }
 } testDescription_suite_MyTestSuite_testRemoveRow;
 
+static class TestDescription_suite_MyTestSuite_testInsertRow : public CxxTest::RealTestDescription {
+public:
+ TestDescription_suite_MyTestSuite_testInsertRow() : CxxTest::RealTestDescription( Tests_MyTestSuite, suiteDescription_MyTestSuite, 251, "testInsertRow" ) {}
+ void runTest() { suite_MyTestSuite.testInsertRow(); }
+} testDescription_suite_MyTestSuite_testInsertRow;
+
+static class TestDescription_suite_MyTestSuite_testInsertColumn : public CxxTest::RealTestDescription {
+public:
+ TestDescription_suite_MyTestSuite_testInsertColumn() : CxxTest::RealTestDescription( Tests_MyTestSuite, suiteDescription_MyTestSuite, 271, "testInsertColumn" ) {}
+ void runTest() { suite_MyTestSuite.testInsertColumn(); }
+} testDescription_suite_MyTestSuite_testInsertColumn;
+
+static class TestDescription_suite_MyTestSuite_testAppendColumn : public CxxTest::RealTestDescription {
+public:
+ TestDescription_suite_MyTestSuite_testAppendColumn() : CxxTest::RealTestDescription( Tests_MyTestSuite, suiteDescription_MyTestSuite, 291, "testAppendColumn" ) {}
+ void runTest() { suite_MyTestSuite.testAppendColumn(); }
+} testDescription_suite_MyTestSuite_testAppendColumn;
+
 static class TestDescription_suite_MyTestSuite_testRemoveColumn : public CxxTest::RealTestDescription {
 public:
- TestDescription_suite_MyTestSuite_testRemoveColumn() : CxxTest::RealTestDescription( Tests_MyTestSuite, suiteDescription_MyTestSuite, 234, "testRemoveColumn" ) {}
+ TestDescription_suite_MyTestSuite_testRemoveColumn() : CxxTest::RealTestDescription( Tests_MyTestSuite, suiteDescription_MyTestSuite, 312, "testRemoveColumn" ) {}
  void runTest() { suite_MyTestSuite.testRemoveColumn(); }
 } testDescription_suite_MyTestSuite_testRemoveColumn;
+
+static class TestDescription_suite_MyTestSuite_testBegin : public CxxTest::RealTestDescription {
+public:
+ TestDescription_suite_MyTestSuite_testBegin() : CxxTest::RealTestDescription( Tests_MyTestSuite, suiteDescription_MyTestSuite, 330, "testBegin" ) {}
+ void runTest() { suite_MyTestSuite.testBegin(); }
+} testDescription_suite_MyTestSuite_testBegin;
+
+static class TestDescription_suite_MyTestSuite_testEnd : public CxxTest::RealTestDescription {
+public:
+ TestDescription_suite_MyTestSuite_testEnd() : CxxTest::RealTestDescription( Tests_MyTestSuite, suiteDescription_MyTestSuite, 341, "testEnd" ) {}
+ void runTest() { suite_MyTestSuite.testEnd(); }
+} testDescription_suite_MyTestSuite_testEnd;
+
+static class TestDescription_suite_MyTestSuite_testIdentity : public CxxTest::RealTestDescription {
+public:
+ TestDescription_suite_MyTestSuite_testIdentity() : CxxTest::RealTestDescription( Tests_MyTestSuite, suiteDescription_MyTestSuite, 353, "testIdentity" ) {}
+ void runTest() { suite_MyTestSuite.testIdentity(); }
+} testDescription_suite_MyTestSuite_testIdentity;
 
 #include <cxxtest/Root.cpp>
 const char* CxxTest::RealWorldDescription::_worldName = "cxxtest";

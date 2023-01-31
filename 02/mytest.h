@@ -182,7 +182,6 @@ public:
         TS_ASSERT_EQUALS(m1(1, 0), 2); 
         TS_ASSERT_EQUALS(m1(1, 1), 4);
     }
-    // void operator-=(const Matrix<T> & other);
     void testSubtractionOperatorEqual () {   // void operator-=(const Matrix<T> & other); 19
         // 1 2  1 2   =   0 0 
         // 1 2  1 2       0 0
@@ -211,9 +210,29 @@ public:
     }
 
 
-    // void append_row(size_t row);
-    // void remove_row(size_t row); 
-    void testRemoveRow() {   // void remove_row(size_t row); 21
+   
+      void testAppendRow () {  // void append_row(size_t row); 21 
+        // 1 2      1 2 
+        //          3 4    
+        // 3 4      0 0
+        Matrix<int> m(2,2);     
+        m(0, 0) = 1;
+        m(0, 1) = 2;
+        m(1, 0) = 3;
+        m(1, 1) = 4;  
+        m.append_row(1);
+        TS_ASSERT_EQUALS(m.rows(), 3);  
+        TS_ASSERT_EQUALS(m.cols(), 2);
+        TS_ASSERT_EQUALS(m(0, 0), 1);
+        TS_ASSERT_EQUALS(m(0, 1), 2);  
+        TS_ASSERT_EQUALS(m(1, 0), 3);
+        TS_ASSERT_EQUALS(m(1, 1), 4);  
+        TS_ASSERT_EQUALS(m(2, 0), 0);
+        TS_ASSERT_EQUALS(m(2, 1), 0);  
+ 
+    }
+     
+    void testRemoveRow() {   // void remove_row(size_t row); 22
         // 1 2   =   1 2
         // 3 4             
         Matrix<int> m1(2, 2); 
@@ -228,11 +247,70 @@ public:
         TS_ASSERT_EQUALS(m1(0, 1), 2);
       
     }
-    // void insert_column(size_t col);
+    
+    void testInsertRow () { // void insert_Row(size_t col); 23
+        // 1 2      1 2 
+        //          0 0    
+        // 3 4      3 4
+        Matrix<int> m(2,2);     
+        m(0, 0) = 1;
+        m(0, 1) = 2;
+        m(1, 0) = 3;
+        m(1, 1) = 4;  
+        m.insert_row(1);
+        TS_ASSERT_EQUALS(m.rows(), 3);  
+        TS_ASSERT_EQUALS(m.cols(), 2);
+        TS_ASSERT_EQUALS(m(0, 0), 1);
+        TS_ASSERT_EQUALS(m(0, 1), 2);  
+        TS_ASSERT_EQUALS(m(1, 0), 0);
+        TS_ASSERT_EQUALS(m(1, 1), 0);  
+        TS_ASSERT_EQUALS(m(2, 0), 3);
+        TS_ASSERT_EQUALS(m(2, 1), 4);  
+ 
+    }
+    void testInsertColumn () { // void insert_column(size_t col); 24
+        // 1 2      1 0 2 
+        // 3 4      3 0 4
+        Matrix<int> m(2,2);     
+        m(0, 0) = 1;
+        m(0, 1) = 2;
+        m(1, 0) = 3;
+        m(1, 1) = 4;  
+        m.insert_column(1);
+        TS_ASSERT_EQUALS(m.rows(), 2);  
+        TS_ASSERT_EQUALS(m.cols(), 3);
+        TS_ASSERT_EQUALS(m(0, 0), 1);
+        TS_ASSERT_EQUALS(m(0, 1), 0);  
+        TS_ASSERT_EQUALS(m(0, 2), 2);
+        TS_ASSERT_EQUALS(m(1, 0), 3);
+        TS_ASSERT_EQUALS(m(1, 1), 0);  
+        TS_ASSERT_EQUALS(m(1, 2), 4);  
+ 
+    }
     // void append_column(size_t col);
+    void testAppendColumn() {   // void append_column(size_t col); 25
+        // 1 2      1 2 0 
+        // 3 4      3 4 0
+        Matrix<int> m(2,2);     
+        m(0, 0) = 1;
+        m(0, 1) = 2;
+        m(1, 0) = 3;
+        m(1, 1) = 4;  
+        m.append_column(1);
+        TS_ASSERT_EQUALS(m.rows(), 2);  
+        TS_ASSERT_EQUALS(m.cols(), 3);
+        TS_ASSERT_EQUALS(m(0, 0), 1);
+        TS_ASSERT_EQUALS(m(0, 1), 2);  
+        TS_ASSERT_EQUALS(m(0, 2), 0);
+        TS_ASSERT_EQUALS(m(1, 0), 3);
+        TS_ASSERT_EQUALS(m(1, 1), 4);  
+        TS_ASSERT_EQUALS(m(1, 2), 0);  
+ 
+    }
+
     // void remove_column(size_t col);
-    void testRemoveColumn() {   // void remove_column(size_t col); 22
-        // 1 2   =   1 
+    void testRemoveColumn() {   // void remove_column(size_t col); 26
+        // 1 2   =   1  
         // 3 4       3
         Matrix<int> m1(2, 2); 
         m1(0, 0) = 1;  
@@ -247,11 +325,48 @@ public:
       
     }  
 
-    // // iterators
-    // typedef T* iterator; 
+    // iterator###########################iterator######################iterator#########
 
-    // iterator begin();
-    // iterator end();
+    void testBegin() {   // iterator begin(); 27
+        // 1 2     
+        // 3 4       
+        Matrix<int> m(2, 2); 
+        m(0, 0) = 1;  
+        m(0, 1) = 2;  
+        m(1, 0) = 3;   
+        m(1, 1) = 4;  
+        // test it that return the first element of the matrix
+        TS_ASSERT_EQUALS((*m.begin()), 1); // 
+    }
+    void testEnd() {   // iterator end(); 28
+        // 1 2    
+        // 3 4       
+        Matrix<int> m(2, 2); 
+        m(0, 0) = 1;  
+        m(0, 1) = 2;  
+        m(1, 0) = 3;   
+        m(1, 1) = 4;  
+        // test it that return the last element of the matrix
+        TS_ASSERT_EQUALS(*(m.end()-1), 4); // 
+    }
+
+    void testIdentity() {   // static Matrix identity(size_t n); 29
+        // 1 0 0
+        // 0 1 0
+        // 0 0 1
+        Matrix<int> m = identity<int>(3);
+        TS_ASSERT_EQUALS(m.rows(), 3);  
+        TS_ASSERT_EQUALS(m.cols(), 3); 
+        for (int i = 0; i < m.rows(); i++) {
+            for (int j = 0; j < m.cols(); j++) {
+                if (i == j) {
+                    TS_ASSERT_EQUALS(m(i, j), 1);
+                } else {
+                    TS_ASSERT_EQUALS(m(i, j), 0);
+                }
+            }
+        }
+    }
 
 
 };
