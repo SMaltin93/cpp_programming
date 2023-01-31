@@ -456,12 +456,29 @@ typename Matrix<T>::iterator Matrix<T>::end() {
 
 template<typename T>
 std::istream & operator>>(std::istream & is, Matrix<T> & m) {
-    // Implementation goes here
+    // implement operator >> to read a matrix from an input stream, that is like when we use cin >> m; 
+    int rows, cols;
+    is >> rows >> cols; // read the number of rows and columns from the input stream
+    m = Matrix<T>(rows, cols); //  set the matrix to the correct size
+    for (int i = 0; i < rows; i++) { // loop through the rows
+        for (int j = 0; j < cols; j++) { // loop through the columns
+            is >> m(i, j); // read the value from the input stream
+        }
+    }
+    return is;
 }
 
 template<typename T>
 std::ostream & operator<<(std::ostream & os, const Matrix<T> & m) {
-    // Implementation goes here
+    // implement operator << to print a matrix to an output stream, that is like when we use cout << m;
+    os << m.rows() << " " << m.cols() << endl; // print the number of rows and columns to the output stream
+    for (int i = 0; i < m.rows(); i++) { // loop through the rows
+        for (int j = 0; j < m.cols(); j++) { // loop through the columns
+            os << m(i, j) << " "; // print the value to the output stream
+        }
+        os << endl; // print a new line
+    }
+    return os;
 }
 
 template<typename T>

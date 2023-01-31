@@ -1,7 +1,8 @@
-// mytest.h
+
 #include <cxxtest/TestSuite.h>
 #include <bits/stdc++.h>
 #include "matrix.h"
+using namespace std;
 
 class MyTestSuite : public CxxTest::TestSuite {
    
@@ -364,6 +365,35 @@ public:
                 } else {
                     TS_ASSERT_EQUALS(m(i, j), 0);
                 }
+            }
+        }
+    }
+
+    void testMatrixInOut() {  // operator<< and operator>> 30
+        Matrix<int> m(2, 2); // create a 2x2 matrix
+        // Set values
+        m(0, 0) = 1;
+        m(0, 1) = 2;
+        m(1, 0) = 3;
+        m(1, 1) = 4;
+
+        // Write to file
+        ofstream write("matrix.txt");
+        write << m;
+        write.close();
+
+        // Read from file
+        Matrix<int> m2; // create a 2x2 matrix
+        ifstream read("matrix.txt");
+        read >> m2;
+        read.close();
+        
+        // Check if the values are the same in both matrices
+        TS_ASSERT_EQUALS(m.rows(), 2);
+        TS_ASSERT_EQUALS(m.cols(), 2);
+        for (int i = 0; i < m.rows(); i++) {
+            for (int j = 0; j < m.cols(); j++) {
+                TS_ASSERT_EQUALS(m(i, j), m2(i, j));
             }
         }
     }

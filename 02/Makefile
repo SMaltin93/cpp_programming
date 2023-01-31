@@ -11,8 +11,8 @@ run: mytest_runner
 
 clean:
 	rm -f mytest_runner myrunner.cpp
-
-git: 
-	git add -A
-	git commit -m "update"
+# do make git "" add parameter String to the end of the command line
+git:
+	git add .
+	git commit -m "$(input)"
 	git push
