@@ -12,9 +12,12 @@ using namespace std;
 template <typename T>
 class Matrix {
 
-    /* static_assert( ... fill in the condition ..., "...") // T must be move-constructible */
-    /* static_assert( ... fill in the condition ..., "...") // T must be move-assignable */
-
+     // T must be move-constructible */
+     //that needs to verify that the type T is move-constructible.
+    static_assert(is_move_constructible<T>::value, "T must be move-constructible");
+    // T must be move-assignable */
+    // that needs to verify that the type T is move-assignable.
+    static_assert(is_move_assignable<T>::value, "T must be move-assignable ");
 public:
     // constructors and assignment operators
     /* TODO: Make the appropriate constructor(s) explicit */
@@ -125,7 +128,8 @@ Matrix<T>::Matrix(const std::initializer_list<T> & list)
 }
 
 template<typename T>
-Matrix<T>::Matrix(Matrix<T> & other) {
+Matrix<T>::Matrix(Matrix<T> & other) { // & means lvalue reference (copy constructor)
+ // that is helpful when you want to copy the data from one object to another.
     m_rows = other.rows();
     m_cols = other.cols();
     m_capacity = other.m_capacity;
@@ -134,7 +138,9 @@ Matrix<T>::Matrix(Matrix<T> & other) {
 }
 
 template<typename T>
-Matrix<T>::Matrix(Matrix<T> && other) noexcept {
+Matrix<T>::Matrix(Matrix<T> && other) noexcept { // && means rvalue reference (move constructor) 
+// that is helpful when you want to move the data from one object to another without copying it.
+//noexcept means that the function will not throw any exceptions.
     m_rows = other.m_rows;
     m_cols = other.m_cols;
     m_capacity = other.m_capacity;
