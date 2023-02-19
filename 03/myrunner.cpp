@@ -33,5 +33,11 @@ public:
  void runTest() { suite_MyTestSuite.testDefaultConstructor(); }
 } testDescription_suite_MyTestSuite_testDefaultConstructor;
 
+static class TestDescription_suite_MyTestSuite_testConstructorWithRealPart : public CxxTest::RealTestDescription {
+public:
+ TestDescription_suite_MyTestSuite_testConstructorWithRealPart() : CxxTest::RealTestDescription( Tests_MyTestSuite, suiteDescription_MyTestSuite, 18, "testConstructorWithRealPart" ) {}
+ void runTest() { suite_MyTestSuite.testConstructorWithRealPart(); }
+} testDescription_suite_MyTestSuite_testConstructorWithRealPart;
+
 #include <cxxtest/Root.cpp>
 const char* CxxTest::RealWorldDescription::_worldName = "cxxtest";

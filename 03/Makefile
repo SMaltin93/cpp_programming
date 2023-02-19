@@ -1,6 +1,6 @@
 all: mytest_runner
 
-myrunner.cpp: mytest.h complex.h	
+myrunner.cpp: mytest.h complex.cpp complex.h	
 	python3 ../cxxtest-4.4/bin/cxxtestgen --error-printer -o myrunner.cpp mytest.h
 
 mytest_runner: myrunner.cpp 
