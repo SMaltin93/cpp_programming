@@ -45,20 +45,20 @@ class Complex {
       double  getReal() const;
       double  getImag() const;
 
-      // // return magnitude of complex number
-      // double magnitude() const;
+      // return magnitude of complex number
+      double magnitude() const;
       
       
-      // bool operator<(const Complex<T> &rhs) const;
+      bool operator<(const Complex<T> &rhs) const;
 
-      // // 	Writes to output stream the complex number in the form (real,imaginary)
-      // // 	Reads from input stream the complex number in the form (real,imaginary)
+      // 	Writes to output stream the complex number in the form (real,imaginary)
+      // 	Reads from input stream the complex number in the form (real,imaginary)
       // istream & operator>>(istream &in, Complex<T> &rhs);
       // ostream & operator<<(ostream &out, const Complex<T> &rhs);
 
-      // // Forms a complex literal representing an imaginary number (note the underscore)
+      // Forms a complex literal representing an imaginary number (note the underscore)
 
-      // Complex<T> operator"" _i(long double imag);
+      //Complex<T> operator"" _i(long double imag);
 
     private:
         double real;
