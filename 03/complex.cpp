@@ -1,7 +1,8 @@
 #include <bits/stdc++.h>
 
 #include "complex.h"
- 
+
+
 using namespace std; 
 
 template <typename T>
@@ -41,6 +42,8 @@ Complex<T>::Complex(Complex && rhs) noexcept{
 
 //assignment operators
 
+
+
 template <typename T>
 Complex<T> & Complex<T>::operator=(const Complex<T> &rhs){
     this->real = rhs.real;
@@ -57,23 +60,25 @@ Complex<T> & Complex<T>::operator=(Complex<T> &&rhs) noexcept{
     return *this;
 }
 
+// 
+
+
 //unary operators
 
 template <typename T>
 Complex<T> Complex<T>::operator-() const{
-    Complex<T> temp;
-    temp.real = -this->real;
-    temp.imag = -this->imag;
-    return temp;
+    -this->real;
+    -this->imag;
 }
 
 template <typename T>
 Complex<T> Complex<T>::operator+() const{
-    Complex<T> temp;
-    temp.real = this->real;
-    temp.imag = this->imag;
-    return temp;
+    this->real;
+    this->imag;
 }
+
+
+
 
 //arithmetic operators
 template <typename T>
@@ -83,11 +88,17 @@ Complex<T> Complex<T>::operator+(const Complex<T> &rhs) const{
     temp.imag = this->imag + rhs.imag;
     return temp;
 }
+// handel Complex k = 1 + 5_i;
+
+template <typename T>
+Complex<T> operator+(const double &lhs, const Complex<T> &rhs){
+    return Complex<T>(lhs + rhs.getReal(), rhs.getImag());
+}
 
 template <typename T>
 Complex<T> Complex<T>::operator-(const Complex<T> &rhs) const{
-    Complex<T> temp;
-    temp.real = this->real - rhs.real;
+    Complex<T> temp; 
+    temp.real = this->real - rhs.real; 
     temp.imag = this->imag - rhs.imag;
     return temp;
 }
@@ -98,6 +109,12 @@ Complex<T> Complex<T>::operator*(const Complex<T> &rhs) const{ // the formula is
     temp.real = this->real * rhs.real - this->imag * rhs.imag;
     temp.imag = this->real * rhs.imag + this->imag * rhs.real;
     return temp;
+}
+
+// multiplikation for scalar
+template <typename T>
+Complex<T> Complex<T>::operator*(const double &scal) const{ //
+    return Complex<T>(this->real * scal, this->imag * scal);
 }
 
 template <typename T>
@@ -117,13 +134,12 @@ void Complex<T>::operator+=(const Complex<T> &rhs) {
 
  
  
+// example Examples of things that should work.
 
-// void operator-=(const Complex<T> &rhs);
 template <typename T>
 void Complex<T>::operator-=(const Complex<T> &rhs) {
-    this->real = this->real - rhs.real; 
-    this->imag = this->imag - rhs.imag;
-
+    this->real -= rhs.real ;
+    this->imag -= rhs.imag;
 }
 
 // void operator*=(const Complex<T> &rhs);
@@ -132,8 +148,18 @@ void Complex<T>::operator*=(const Complex<T> &rhs) {
     Complex<T> temp;
     temp.real = this->real * rhs.real - this->imag * rhs.imag;
     temp.imag = this->real * rhs.imag + this->imag * rhs.real;
-    *this = temp; 
+    *this = temp;
 }
+
+// multiplication operator with scalar
+// Complex<T> operator*(const Complex<T> &scal) const; // scalar multiplication
+template <typename T>
+void Complex<T>::operator*=(const double &scalar){
+    this->real *= scalar;
+    this->imag *= scalar;
+}
+// vod operator *=(const Complex<T> &scal); // scalar multiplication
+
 
 // void operator/=(const Complex<T> &rhs);
 template <typename T>
@@ -147,15 +173,15 @@ void Complex<T>::operator/=(const Complex<T> &rhs) {
 
 // // comparison operators
 template <typename T>
-Complex<T> Complex<T>::operator==(const Complex<T> &rhs) const {
+bool Complex<T>::operator==(const Complex<T> &rhs) const {
     return (this->real == rhs.real && this->imag == rhs.imag);
 }
 
-// Complex<T> operator!=(const Complex<T> &rhs) const;
 template <typename T>
-Complex<T> Complex<T>::operator!=(const Complex<T> &rhs) const {
-    return (this->real != rhs.real && this->imag != rhs.imag);
+bool Complex<T>::operator!=(const Complex<T> &rhs) const {
+    return !(this->real == rhs.real && this->imag == rhs.imag);
 }
+
 
 
 //getter 
@@ -174,12 +200,53 @@ double Complex<T>::getImag() const{
 
 // double magnitude() const;
 template <typename T>
-double Complex<T>::magnitude() const{
-    return sqrt( pow(this->real, 2.0) + pow(this->imag, 2.0) );
+double Complex<T>::abs()  const{
+    return sqrt( pow(this->real, 2) + pow(this->imag, 2) );
 }
 
 // comparison operators
 template <typename T>
-bool Complex<T>::operator<(const Complex<T> &rhs) const { // the formula is if |a+bi| < |c+di| then a^2+b^2 < c^2+d^2
-    return (this->magnitude() < rhs.magnitude()); 
+bool Complex<T>::operator<(const Complex<T> &rhs) const { // the formula is  |a+bi| < |c+di| 
+    return (this->abs() < rhs.abs() ); 
 }
+
+// input and output operators
+// Writes to output stream the complex number in the form (real,imaginary)
+
+template <typename T>
+ostream & operator<<(ostream & os, const Complex<T> &rhs){
+    os << "(" << rhs.getReal() << "," << rhs.getImag() << ")";
+    return os;
+}
+
+// 	Reads a complex number from is. The supported formats are real, (real) and (real,imaginary) Where the input must be convertible to Double
+
+template <typename T>
+istream & operator>>(istream & is, Complex<T> &rhs) {
+    char c; // for the brackets
+    double real, imag; 
+    is >> c;
+    if (c == '(') {
+        is >> real >> c;
+        if (c == ',') {
+            is >> imag >> c;
+            rhs = Complex<T>(real, imag);
+        } else {
+            imag = 0;
+            rhs = Complex<T>(real, imag);
+        }
+    } else {
+        is >> real;
+        imag = 0;
+        rhs = Complex<T>(real, imag);
+    }
+    return is; 
+} 
+
+// insperations from https://en.cppreference.com/w/cpp/numeric/complex/operator%22%22i
+ // the input 5_i, or 5.0_i should be ok  
+ Complex<double> operator""_i(unsigned long long  imag) {
+    return Complex<double>(0, imag);
+}
+
+ 

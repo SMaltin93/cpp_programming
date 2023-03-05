@@ -27,38 +27,43 @@ class Complex {
 
       // arithmetic operators
       Complex<T> operator+(const Complex<T> &rhs) const;
+      // handel Complex k = 1 + 5_i;
+      // // friend means that this function can access private members of the class, for example, Complex::real and Complex::imag in this case.
+    
+
       Complex<T> operator-(const Complex<T> &rhs) const;
       Complex<T> operator*(const Complex<T> &rhs) const;
+      //multiplication operator for scalar multiplication
+      Complex<T> operator*(const double &scalar ) const;
       Complex<T> operator/(const Complex<T> &rhs) const;
 
       void operator+=(const Complex<T> &rhs);
       void operator-=(const Complex<T> &rhs);
       void operator*=(const Complex<T> &rhs);
+      //multiplication operator for scalar multiplication
+      void operator*=(const double &scalar);
+
       void operator/=(const Complex<T> &rhs);
 
 
 
       // comparison operators
-      Complex<T> operator==(const Complex<T> &rhs) const;
-      Complex<T> operator!=(const Complex<T> &rhs) const;
+      bool operator==(const Complex<T> &rhs) const;
+      bool operator!=(const Complex<T> &rhs) const;
 
       double  getReal() const;
       double  getImag() const;
 
       // return magnitude of complex number
-      double magnitude() const;
-      
+      double abs() const;
       
       bool operator<(const Complex<T> &rhs) const;
 
-      // 	Writes to output stream the complex number in the form (real,imaginary)
-      // 	Reads from input stream the complex number in the form (real,imaginary)
-      // istream & operator>>(istream &in, Complex<T> &rhs);
-      // ostream & operator<<(ostream &out, const Complex<T> &rhs);
+      // //
 
-      // Forms a complex literal representing an imaginary number (note the underscore)
 
-      //Complex<T> operator"" _i(long double imag);
+      // perator << 
+      
 
     private:
         double real;
