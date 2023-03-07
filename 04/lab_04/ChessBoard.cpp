@@ -147,17 +147,8 @@ ChessBoard & operator>>(istream & is, ChessBoard & cb) {
 
 // operator<< prints a chess board to a stream
 ChessBoard & operator<<(ostream & os, ChessBoard & cb) {
-   for (int i = 0; i < 8; i++) {
-        for (int j = 0; j < 8; j++) {
-            if (cb.getPiece(i, j) == nullptr) {
-                os << '.';
-            } else {
-                os << cb.getPiece(i, j) -> toString();
-            }
-        }
-        os << endl;
-    }
-    return os;
+    
+  
 }
 
 
