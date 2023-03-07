@@ -3,5 +3,61 @@
 //
 
 #include "King.h"
+#include "ChessBoard.h"
+#include "ChessMove.h"
+#include "ChessPiece.h"
 
-// Implement method definitions here
+#include <bits/stdc++.h>
+
+using namespace std;
+
+
+
+King::King(int x, int y, bool is_white, ChessBoard *board) : ChessPiece(x, y, is_white, board) {}
+
+// the king formula is either Δx * Δy is one or Δx + Δy is one
+// Let Δx be abs(x1-x2) and Δy be abs(y1-y2)
+// Then either Δx * Δy is one or Δx + Δy is one
+
+
+/**
+ * Returns 0 if target square is unreachable.
+ * Returns 1 if target square is reachable and empty.
+ * Returns 2 if move captures a piece.
+ */
+int King::validMove(int to_x, int to_y) {
+    int x = abs(m_x - to_x);
+    int y = abs(m_y - to_y);
+    // Returns 0 if target square is unreachable.
+    if (x > 1 || y > 1) {
+        return 0;
+    }
+    // Returns 1 if target square is reachable and empty
+
+    if (m_board->getPiece(to_x, to_y) == nullptr) {
+        return 1;
+    }
+    // Returns 2 if move captures a piece.
+    if (m_board->getPiece(to_x, to_y)->isWhite() != m_is_white) {
+        return 2;
+    }
+    return 0;
+    
+}
+
+char32_t King::utfRepresentation() {
+    if (m_is_white) {
+        // U+2654 is the unicode for the white king
+        return U'\u2654';
+    }
+    // U+265A is the unicode for the black king
+    return U'\u265A';  
+}
+
+char King::latin1Representation() {
+    if (m_is_white) {
+        return 'K';
+    }
+    return 'k';
+}
+

@@ -8,14 +8,7 @@
 #include "ChessPiece.h"
 
 class Bishop : public ChessPiece {
-    
-public:
-    Bishop(int x, int y, bool is_white, ChessBoard * board);
-    int validMove(int to_x, int to_y);
-    char32_t utfRepresentation();
-    char latin1Representation();
-    vector<ChessMove> capturingMoves();
-    vector<ChessMove> nonCapturingMoves();
+    // Override virtual methods from ChessPiece here
 };
 
 

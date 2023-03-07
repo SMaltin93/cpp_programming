@@ -9,11 +9,21 @@
 #include "Bishop.h"
 #include "Knight.h"
 #include "Pawn.h"
+#include "ChessPiece.h"
+
+#include <bits/stdc++.h>
+#include <iostream>
 
 
 
 
 using namespace std;
+
+
+// setBoard sets the board to a given state
+void ChessBoard::setBoard(Matrix<shared_ptr<ChessPiece>> board) {
+    m_state = board;
+}
 
 void ChessBoard::movePiece(ChessMove chess_move) {
     shared_ptr<ChessPiece> piece = m_state(chess_move.from_x, chess_move.from_y); // my_state is a Matrix<shared_ptr<ChessPiece>> and has tow arguments row and column
@@ -28,38 +38,126 @@ void ChessBoard::movePiece(ChessMove chess_move) {
 
 vector<ChessMove> ChessBoard::capturingMoves(bool is_white) {
 
-    vector<ChessMove> capturing_moves; // vector of ChessMove
-    vector<ChessPiece *> pieces; // vector of pointers to ChessPiece
-    if (is_white) { // if the player is white
-        pieces = m_white_pieces; // pieces is a vector of pointers to ChessPiece
-    } else { // if the player is black 
-        pieces = m_black_pieces; // pieces is a vector of pointers to ChessPiece
+    vector<ChessMove> capturing_moves;
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            if (m_state(i, j) != nullptr) {
+                if (m_state(i, j)->isWhite() == is_white) {
+                    vector<ChessMove> piece_moves = m_state(i, j)->capturingMoves();
+                    for (int k = 0; k < piece_moves.size(); k++) {
+                        capturing_moves.push_back(piece_moves[k]);
+                    }
+                }
+            }
+        }
     }
-    for (ChessPiece * piece : pieces) { // for each piece in pieces
-        vector<ChessMove> piece_moves = piece->capturingMoves(); // piece_moves is a vector of ChessMove
-        for (ChessMove move : piece_moves) { // for each move in piece_moves 
-            capturing_moves.push_back(move); // add the move to capturing_moves
-        } 
-    }
-    return capturing_moves; // return the vector of ChessMove
+
 
 }
+// nonCapturingMoves returns a vector with ChessMoves that moves to an empty space.
+vector<ChessMove> ChessBoard::nonCapturingMoves(bool is_white) { 
 
-vector<ChessMove> ChessBoard::nonCapturingMoves(bool is_white) {
-            
-        vector<ChessMove> non_capturing_moves; // vector of ChessMove
-        vector<ChessPiece *> pieces; // vector of pointers to ChessPiece
-        if (is_white) { // if the player is white
-            pieces = m_white_pieces; // pieces is a vector of pointers to ChessPiece
-        } else { // if the player is black 
-            pieces = m_black_pieces; // pieces is a vector of pointers to ChessPiece
+    vector<ChessMove> non_capturing_moves;
+    // Looping through the board and checking if the piece is white or black
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            if (m_state(i, j) != nullptr) {
+                if (m_state(i, j)->isWhite() == is_white) {
+                    vector<ChessMove> piece_moves = m_state(i, j)->nonCapturingMoves();
+                    for (int k = 0; k < piece_moves.size(); k++) {
+                        non_capturing_moves.push_back(piece_moves[k]);
+                    }
+                }
+            }
         }
-        for (ChessPiece * piece : pieces) { // for each piece in pieces
-            vector<ChessMove> piece_moves = piece->nonCapturingMoves(); // piece_moves is a vector of ChessMove
-            for (ChessMove move : piece_moves) { // for each move in piece_moves 
-                non_capturing_moves.push_back(move); // add the move to non_capturing_moves
-            } 
-        }
-        return non_capturing_moves; // return the vector of ChessMove
-    
+    }
+    return non_capturing_moves;    
 }
+
+// getPiece returns the piece at a given position
+ChessPiece * ChessBoard::getPiece(int x, int y) {
+    return m_state(x, y).get();
+}
+
+
+
+
+// here its a simple porgram
+// using std::vector; using std::stringstream; using std::cout; using std::endl;
+// //...
+//     ChessBoard chess;
+//     stringstream s;
+//     s << ".....Q.." << endl;
+//     s << "...q...." << endl;
+//     s << "......Q." << endl;
+//     s << "q......." << endl;
+//     s << ".......Q" << endl;
+//     s << ".q......" << endl;
+//     s << "....Q..." << endl;
+//     s << "..q.....";
+//     s >> chess;
+//     vector<ChessMove> v = chess.capturingMoves(true);
+
+//     if (v.size() != 0) {
+//         cout << "capturingMoves FAILED, expected 0 moves but got " << v.size() << " moves" << endl;
+//     } else {
+//         cout << "capturingMoves PASSED, expected 0 moves and got " << v.size() << " moves" << endl;
+//     }
+
+// operator>> reads a chess board from a stream
+ChessBoard & operator>>(istream & is, ChessBoard & cb) {
+
+    //set the board to the given state
+    Matrix<shared_ptr<ChessPiece>> board(8, 8);
+    char c;
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            is >> c;
+            if (c == '.') {
+                board(i, j) = nullptr;
+            } else if (c == 'K') {
+                board(i, j) = make_shared<King>(i, j, true);
+            } else if (c == 'k') {
+                board(i, j) = make_shared<King>(i, j, false);
+            } else if (c == 'Q') {
+                board(i, j) = make_shared<Queen>(i, j, true);
+            } else if (c == 'q') {
+                board(i, j) = make_shared<Queen>(i, j, false);
+            } else if (c == 'R') {
+                board(i, j) = make_shared<Rook>(i, j, true);
+            } else if (c == 'r') {
+                board(i, j) = make_shared<Rook>(i, j, false);
+            } else if (c == 'B') {
+                board(i, j) = make_shared<Bishop>(i, j, true);
+            } else if (c == 'b') {
+                board(i, j) = make_shared<Bishop>(i, j, false);
+            } else if (c == 'N') {
+                board(i, j) = make_shared<Knight>(i, j, true);
+            } else if (c == 'n') {
+                board(i, j) = make_shared<Knight>(i, j, false);
+            } else if (c == 'P') {
+                board(i, j) = make_shared<Pawn>(i, j, true);
+            } else if (c == 'p') {
+                board(i, j) = make_shared<Pawn>(i, j, false);
+            }
+        }
+    }
+    cb.setBoard(board);
+}
+
+// operator<< prints a chess board to a stream
+ChessBoard & operator<<(ostream & os, ChessBoard & cb) {
+   for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            if (cb.getPiece(i, j) == nullptr) {
+                os << '.';
+            } else {
+                os << cb.getPiece(i, j) -> toString();
+            }
+        }
+        os << endl;
+    }
+    return os;
+}
+
+

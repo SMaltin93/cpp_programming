@@ -20,7 +20,7 @@ class ChessBoard {
     // add additional members or functions of your choice
 
 private:
-    // Alternative 1 (the matrix owns the chess pieces):
+    // Alternative 1 (the matrix owns the   chess pieces):
     Matrix<shared_ptr<ChessPiece>> m_state; // Matrix from lab 2
     vector<ChessPiece *> m_white_pieces; 
     vector<ChessPiece *> m_black_pieces;
@@ -30,10 +30,17 @@ private:
     // vector<shared_ptr<ChessPiece>> m_white_pieces;
     // vector<shared_ptr<ChessPiece>> m_black_pieces;
 
-public:
+public: 
+    // set a board  
+    void setBoard(Matrix<shared_ptr<ChessPiece>> board);
     void movePiece(ChessMove chess_move);
     vector<ChessMove> capturingMoves(bool is_white);
     vector<ChessMove> nonCapturingMoves(bool is_white);
+
+    // get the piece at a given position
+    ChessPiece * getPiece(int x, int y);
+    
+    
 
 };
 

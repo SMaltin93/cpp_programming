@@ -4,17 +4,21 @@
 
 #include "ChessPiece.h"
 #include "ChessBoard.h"
-
+// Implenet value så we can se if we create create a new object 
 int ChessPiece::validMove(int to_x, int to_y) {
 
+    return 0;
 }
 
 char32_t ChessPiece::utfRepresentation() {
-    // Implementation goes h
+
+    return 0;
+
 }
 
 char ChessPiece::latin1Representation() {
-    // Implementation goes here
+    
+    return 0;
 }
 
 ChessPiece::ChessPiece(int x, int y, bool is_white, ChessBoard *board)
@@ -39,6 +43,7 @@ bool ChessPiece::nonCapturingMove(int to_x, int to_y) {
     return false;
 }
 
+// capturingMoves returns a vector with ChessMoves that captures a piece of the opposing color
 vector<ChessMove> ChessPiece::capturingMoves() {
     vector<ChessMove> capturing_moves;
     for (int i = 0; i < 8; i++) {
@@ -52,6 +57,8 @@ vector<ChessMove> ChessPiece::capturingMoves() {
     return capturing_moves;
 }
 
+// nonCapturingMoves returns a vector with ChessMoves that moves to an empty space.
+
 vector<ChessMove> ChessPiece::nonCapturingMoves() {
     vector<ChessMove> non_capturing_moves;
     for (int i = 0; i < 8; i++) {
@@ -63,4 +70,8 @@ vector<ChessMove> ChessPiece::nonCapturingMoves() {
         }
     }
     return non_capturing_moves;
+}
+
+bool ChessPiece::isWhite() {
+    return m_is_white;
 }
