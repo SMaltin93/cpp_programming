@@ -28,7 +28,7 @@ public:
          TS_ASSERT_EQUALS(c.getImag(), 2.0);
     }
 
-     // test copy constructor
+   // test copy constructor
     void testCopyConstructor(void) {
          Complex<double> c1(1.0, 2.0);
          Complex<double> c2(c1);
@@ -215,7 +215,6 @@ public:
      }
 
      // Basic test examples
-    
      // Complex x2 = 5;
      // Complex y(6, 2);
      // Complex z = x + y;
@@ -224,23 +223,21 @@ public:
      // std::cout << Complex(6, 6) / 6 << std::endl;
 
      void basicTestExample(void) {
-         
-           // Complex k = 3 + 5_i;
+     
+          // Complex k = 3 + 5_i;
           Complex<double> k = 3 + 5_i;
           TS_ASSERT_EQUALS(k.getReal(), 3.0);
           TS_ASSERT_EQUALS(k.getImag(), 5.0);
-          
           
           // k -= 5 + 1_i * Complex(5, 3);
           k -= 5 + 1_i * Complex<double>(5, 3); // that means 3 + 5_i - (5 + 1_i * (5 + 3_i)) = -7 + 2_i 
           TS_ASSERT_EQUALS(k.getReal(), -7.0);
           TS_ASSERT_EQUALS(k.getImag(), 2.0);
           
-           // test complex(6, 6) / 6 
+          // test complex(6, 6) / 6 
           Complex<double> c1 = Complex<double>(6, 6) / 6;
           TS_ASSERT_EQUALS(c1.getReal(), 1.0);
           TS_ASSERT_EQUALS(c1.getImag(), 1.0);
-
      }
 
 };
