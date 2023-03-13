@@ -15,7 +15,7 @@ protected:
     char latin1Representation() override;
 
 public:
-    Knight(int x, int y, bool is_white, ChessBoard *board);    
+    Knight(int x, int y, bool is_white, ChessBoard *board, Type type);    
 };
 
 

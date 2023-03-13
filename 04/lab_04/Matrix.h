@@ -58,6 +58,10 @@ public:
     void insert_column(size_t col);
     void append_column(size_t col);
     void remove_column(size_t col);
+    void add_element(size_t row, size_t col, const T & elem);
+    void remove_element(size_t row, size_t col);
+    // get element at row, col
+    T get_element(size_t row, size_t col) const;
 
     // iterators
     typedef T* iterator;  
@@ -447,6 +451,34 @@ void Matrix<T>::remove_column(size_t col) {
     // Replace the old matrix with the new matrix
     *this = newMatrix;
 }
+
+// add element
+//void add_element(size_t row, size_t col, const T & elem);
+template<typename T>
+void Matrix<T>::add_element(size_t row, size_t col, const T & elem) {
+    if (row > m_rows || row < 0) {
+        throw invalid_argument("out of the rang");
+    }
+    if (col > m_cols || col < 0) {
+        throw invalid_argument("out of the rang");
+    }
+    (*this)(row, col) = elem;
+}
+
+// remove element
+template<typename T>
+void Matrix<T>::remove_element(size_t row, size_t col) {
+    if (row > m_rows || row < 0) {
+        throw invalid_argument("out of the rang");
+    }
+    if (col > m_cols || col < 0) {
+        throw invalid_argument("out of the rang");
+    }
+    (*this)(row, col) = 0;
+}
+
+
+
 
 template<typename T>
 typename Matrix<T>::iterator Matrix<T>::begin() {

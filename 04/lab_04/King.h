@@ -6,6 +6,7 @@
 #define KING_H
 
 #include "ChessPiece.h"
+#include <bits/stdc++.h>
 
 class King : public ChessPiece {
     // Override virtual methods from ChessPiece here
@@ -17,7 +18,8 @@ protected:
 
 
 public:
-    King(int x, int y, bool is_white, ChessBoard *board);
+    King(int x, int y, bool is_white, ChessBoard *board, Type type);
+    virtual ~King();
 };
 
 

@@ -12,7 +12,7 @@
 using namespace std;
 
 
-Knight::Knight(int x, int y, bool is_white, ChessBoard *board) : ChessPiece(x, y, is_white, board) {}
+Knight::Knight(int x, int y, bool is_white, ChessBoard *board, Type type) : ChessPiece(x, y, is_white, board, peiceType) {}
 
 // A possible implementation to check valid moves for knights is to check if Δx² + Δy² is 5.
 

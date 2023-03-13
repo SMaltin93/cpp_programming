@@ -17,28 +17,41 @@ class ChessPiece;
 struct ChessMove;
 
 class ChessBoard {
-    // add additional members or functions of your choice
 
 private:
     // Alternative 1 (the matrix owns the   chess pieces):
     Matrix<shared_ptr<ChessPiece>> m_state; // Matrix from lab 2
-    vector<ChessPiece *> m_white_pieces; 
-    vector<ChessPiece *> m_black_pieces;
-
-    // Alternative 2 (the vectors own the chess pieces):
-    // Matrix<ChessPiece *> m_state; // Matrix from lab 2
-    // vector<shared_ptr<ChessPiece>> m_white_pieces;
-    // vector<shared_ptr<ChessPiece>> m_black_pieces;
+    vector<ChessPiece *> m_white_pieces;  // Vector of pointers to white pieces
+    vector<ChessPiece *> m_black_pieces;  // Vector of pointers to black pieces
 
 public: 
-    // set a board  
+    // set a board  to a given state
+
+
     void setBoard(Matrix<shared_ptr<ChessPiece>> board);
+    
+
+    // print the board
+    void printBoard();
+
+    // get the piece at a given position
+    ChessPiece * getPiece(int x, int y);
+
+ 
+
+
     void movePiece(ChessMove chess_move);
     vector<ChessMove> capturingMoves(bool is_white);
     vector<ChessMove> nonCapturingMoves(bool is_white);
 
-    // get the piece at a given position
-    ChessPiece * getPiece(int x, int y);
+
+    // acces the vector of white pieces
+    vector<ChessPiece *> &getWhitePieces();
+
+    // acces the vector of black pieces
+    vector<ChessPiece *> &getBlackPieces();
+
+ 
     
     
 

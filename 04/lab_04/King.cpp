@@ -13,7 +13,9 @@ using namespace std;
 
 
 
-King::King(int x, int y, bool is_white, ChessBoard *board) : ChessPiece(x, y, is_white, board) {}
+King::King(int x, int y, bool is_white, ChessBoard *board, Type type) : ChessPiece(x, y, is_white, board, peiceType) {}
+
+King::~King() {}
 
 // the king formula is either Δx * Δy is one or Δx + Δy is one
 // Let Δx be abs(x1-x2) and Δy be abs(y1-y2)
