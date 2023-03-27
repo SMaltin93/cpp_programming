@@ -4,7 +4,7 @@
 
 #ifndef CHESSPIECE_H
 #define CHESSPIECE_H
-
+#include <string>
 #include <vector>
 #include "ChessMove.h"
 #include "ChessBoard.h"
@@ -16,7 +16,7 @@ enum Type {King, Knight, Pawn, Queen, Rook, Bishop};
 
 class ChessPiece {
     friend void ChessBoard::movePiece(ChessMove p);
-    friend void ChessBoard::setBoard(Matrix<shared_ptr<ChessPiece>> board);
+    friend void ChessBoard::printBoard();
    
 
 protected:                               // protected will cause problems with multiple inheritance so solve it by using composition instead
@@ -41,6 +41,9 @@ protected:                               // protected will cause problems with m
 public:
     // Constructor
     ChessPiece(int x, int y, bool is_white, ChessBoard * board, Type type);
+
+    // Destructor
+    virtual ~ChessPiece();
     /**
      * Checks if this move is valid for this piece and captures
      * a piece of the opposite color.
@@ -53,12 +56,13 @@ public:
     virtual vector<ChessMove> capturingMoves();
     virtual vector<ChessMove> nonCapturingMoves();
 
+
+
     // make that possible to access the protected members
     bool isWhite();
     // get type 
     Type getType();
     
-   
     /**
     * For testing multiple inheritance
     */

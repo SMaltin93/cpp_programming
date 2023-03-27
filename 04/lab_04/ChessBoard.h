@@ -14,9 +14,10 @@
 using namespace std;
 
 class ChessPiece;
-struct ChessMove;
 
 class ChessBoard {
+
+
 
 private:
     // Alternative 1 (the matrix owns the   chess pieces):
@@ -26,34 +27,23 @@ private:
 
 public: 
     // set a board  to a given state
-
-
     void setBoard(Matrix<shared_ptr<ChessPiece>> board);
-    
-
     // print the board
     void printBoard();
-
     // get the piece at a given position
     ChessPiece * getPiece(int x, int y);
+      // set a piece
+    shared_ptr <ChessPiece> newPiece(int x, int y, bool is_white, ChessBoard * board, Type type);
+    // acces the vector of white pieces
+    vector<ChessPiece *> getWhitePieces();
+    // acces the vector of black pieces
+    vector<ChessPiece *> getBlackPieces();
+  
 
  
-
-
     void movePiece(ChessMove chess_move);
     vector<ChessMove> capturingMoves(bool is_white);
     vector<ChessMove> nonCapturingMoves(bool is_white);
-
-
-    // acces the vector of white pieces
-    vector<ChessPiece *> &getWhitePieces();
-
-    // acces the vector of black pieces
-    vector<ChessPiece *> &getBlackPieces();
-
- 
-    
-    
 
 };
 

@@ -27,25 +27,21 @@ void ChessBoard::setBoard(Matrix<shared_ptr<ChessPiece>> board) {
     this->m_state = board;
 }
 
-
-
 // getPiece returns the piece at a given position
 ChessPiece * ChessBoard::getPiece(int x, int y) {
     return m_state(x, y).get();
 }
 
 
-
-// getWhitePieces returns the white pieces
-vector<ChessPiece *> & ChessBoard::getWhitePieces() {
+// getWhitePieces returns the vector of white pieces
+vector<ChessPiece *> ChessBoard::getWhitePieces() {
     return m_white_pieces;
 }
 
-// getBlackPieces returns the black pieces
-vector<ChessPiece *> & ChessBoard::getBlackPieces() {
+// getBlackPieces returns the vector of black pieces
+vector<ChessPiece *> ChessBoard::getBlackPieces() {
     return m_black_pieces;
 }
-// printBoard prints the board
 
 void ChessBoard::printBoard() {
     cout << "  a b c d e f g h" << endl;
@@ -117,40 +113,9 @@ vector<ChessMove> ChessBoard::nonCapturingMoves(bool is_white) {
 
 // operator>> reads a chess board from a stream
 ChessBoard & operator>>(istream & is, ChessBoard & cb) {
-   // Read in the board state from the input stream
-    Matrix<shared_ptr<ChessPiece>> board(8);
-    for (int i = 0; i < 8; i++) {
-        for (int j = 0; j < 8; j++) {
-            char c;
-            is >> c;
-            if (c == '.') {
-                board(i, j) = nullptr;
-            } else {
-                bool is_white = (c < 'a');
-                Type type;
-                c = tolower(c);
-                switch (c) {
-                    case 'k': type = King; break;
-                    case 'q': type = Queen; break;
-                    case 'r': type = Rook; break;
-                    case 'b': type = Bishop; break;
-                    case 'n': type = Knight; break;
-                    case 'p': type = Pawn; break;
-                    default: throw std::invalid_argument("Invalid character in board state");
-                }
-                board(i, j) = std::make_shared<ChessPiece>(i, j, is_white, &cb, type);
-                if (is_white) {
-                    cb.getWhitePieces().push_back(board(i, j).get());
-                } else {
-                    cb.getBlackPieces().push_back(board(i, j).get());
-                }
-            }
-        }
-    }
-
-    // Set the board state and return the ChessBoard object
-    cb.setBoard(board);
-    return cb;
+  // read the board state from the stream¨
+  //     ChessPiece(int x, int y, bool is_white, ChessBoard * board, Type type);
+  Matrix<shared_ptr<ChessPiece>> board(8);
 }
 // operator<< prints a chess board to a stream
 ChessBoard & operator<<(ostream & os, ChessBoard & cb) {
