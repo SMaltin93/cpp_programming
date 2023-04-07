@@ -11,36 +11,30 @@
 
 using namespace std;
 
-enum Type {King, Knight, Pawn, Queen, Rook, Bishop};
-
-
 class ChessPiece {
     friend void ChessBoard::movePiece(ChessMove p);
-    friend void ChessBoard::setBoard(Matrix<shared_ptr<ChessPiece>> board);
-   
+    friend King;
 
-protected:                               // protected will cause problems with multiple inheritance so solve it by using composition instead
+protected:                               // protected will cause problems with multiple inheritance
     int m_x, m_y;
     bool m_is_white;
     ChessBoard* m_board;
-    Type peiceType; 
-
 
     /**
      * Returns 0 if target square is unreachable.
      * Returns 1 if target square is reachable and empty.
      * Returns 2 if move captures a piece.
      */
-    virtual int validMove(int to_x, int to_y) = 0;
-    virtual char32_t utfRepresentation() = 0;
-    virtual char latin1Representation() = 0; 
-    
-    
+    virtual int validMove(int to_x, int to_y);
+    virtual char32_t utfRepresentation();
+    virtual char latin1Representation(); 
 
 
 public:
     // Constructor
-    ChessPiece(int x, int y, bool is_white, ChessBoard * board, Type type);
+    ChessPiece(int x, int y, bool is_white, ChessBoard * board);
+
+
     /**
      * Checks if this move is valid for this piece and captures
      * a piece of the opposite color.
@@ -53,10 +47,7 @@ public:
     virtual vector<ChessMove> capturingMoves();
     virtual vector<ChessMove> nonCapturingMoves();
 
-    // make that possible to access the protected members
-    bool isWhite();
-    // get type 
-    Type getType();
+    bool isWhite() const; 
     
    
     /**

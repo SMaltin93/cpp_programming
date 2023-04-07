@@ -13,7 +13,7 @@ using namespace std;
 
 
 
-King::King(int x, int y, bool is_white, ChessBoard *board, Type type) : ChessPiece(x, y, is_white, board, peiceType) {}
+King::King(int x, int y, bool is_white, ChessBoard *board) : ChessPiece(x, y, is_white, board) {}
 
 King::~King() {}
 
@@ -28,23 +28,24 @@ King::~King() {}
  * Returns 2 if move captures a piece.
  */
 int King::validMove(int to_x, int to_y) {
-    int x = abs(m_x - to_x);
-    int y = abs(m_y - to_y);
-    // Returns 0 if target square is unreachable.
-    if (x > 1 || y > 1) {
+    int delta_x = abs(m_x - to_x);
+    int delta_y = abs(m_y - to_y);
+    ChessPiece getPiece = m_board->operator()(to_x, to_y); 
+    if (delta_x * delta_y == 1 || delta_x + delta_y == 1) {
+
+        if (getPiece.isWhite() == m_is_white) {
+            return 0;
+        }
+        else if (getPiece.isWhite() != m_is_white) {
+            return 2;
+        }
+        else {
+            return 1;
+        }
+ 
+    } else {
         return 0;
     }
-    // Returns 1 if target square is reachable and empty
-
-    if (m_board->getPiece(to_x, to_y) == nullptr) {
-        return 1;
-    }
-    // Returns 2 if move captures a piece.
-    if (m_board->getPiece(to_x, to_y)->isWhite() != m_is_white) {
-        return 2;
-    }
-    return 0;
-    
 }
 
 char32_t King::utfRepresentation() {

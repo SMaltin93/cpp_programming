@@ -11,6 +11,8 @@
 class King : public ChessPiece {
     // Override virtual methods from ChessPiece here
 
+friend ChessPiece;
+
 protected:
     int validMove(int to_x, int to_y) override;
     char32_t utfRepresentation() override;
@@ -18,8 +20,8 @@ protected:
 
 
 public:
-    King(int x, int y, bool is_white, ChessBoard *board, Type type);
-    virtual ~King();
+    King(int x, int y, bool is_white, ChessBoard *board);
+    ~King();
 };
 
 

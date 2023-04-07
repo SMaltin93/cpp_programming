@@ -1,7 +1,3 @@
-//
-// DD1388 - Lab 4: Losing Chess
-//
-
 #ifndef CHESSBOARD_H
 #define CHESSBOARD_H
 
@@ -14,50 +10,33 @@
 using namespace std;
 
 class ChessPiece;
-struct ChessMove;
 
 class ChessBoard {
+    // add additional members or functions of your choice
 
 private:
-    // Alternative 1 (the matrix owns the   chess pieces):
+    // Alternative 1 (the matrix owns the chess pieces):
     Matrix<shared_ptr<ChessPiece>> m_state; // Matrix from lab 2
-    vector<ChessPiece *> m_white_pieces;  // Vector of pointers to white pieces
-    vector<ChessPiece *> m_black_pieces;  // Vector of pointers to black pieces
+    vector<ChessPiece *> m_white_pieces;
+    vector<ChessPiece *> m_black_pieces;
 
-public: 
-    // set a board  to a given state
+    // Alternative 2 (the vectors own the chess pieces):
+    // Matrix<ChessPiece *> m_state; // Matrix from lab 2
+    // vector<shared_ptr<ChessPiece>> m_white_pieces;
+    // vector<shared_ptr<ChessPiece>> m_black_pieces;
 
-
-    void setBoard(Matrix<shared_ptr<ChessPiece>> board);
-    
-
-    // print the board
-    void printBoard();
-
-    // get the piece at a given position
-    ChessPiece * getPiece(int x, int y);
-
- 
-
-
+public:
     void movePiece(ChessMove chess_move);
     vector<ChessMove> capturingMoves(bool is_white);
     vector<ChessMove> nonCapturingMoves(bool is_white);
 
-
-    // acces the vector of white pieces
-    vector<ChessPiece *> &getWhitePieces();
-
-    // acces the vector of black pieces
-    vector<ChessPiece *> &getBlackPieces();
-
- 
-    
-    
-
+    void setPiece(int x, int y, ChessPiece * piece);
+    void removePiece(int x, int y);
+    ChessPiece & operator()( int x, int y) const;
 };
 
 ChessBoard & operator>>(istream & is, ChessBoard & cb);
 ChessBoard & operator<<(ostream & os, ChessBoard & cb);
+
 
 #endif //CHESSBOARD_H
