@@ -8,6 +8,7 @@
 #include "ChessPiece.h"
 #include <bits/stdc++.h>
 
+
 class King : public ChessPiece {
     // Override virtual methods from ChessPiece here
 

@@ -27,6 +27,10 @@ ChessPiece::ChessPiece(int x, int y, bool is_white, ChessBoard *board)
     this->m_board = board;
 }
 
+ChessPiece::~ChessPiece() {
+    // Destructor
+}
+
 bool ChessPiece::capturingMove(int to_x, int to_y) { // capture move means that the move is valid and the target square is occupied by a piece of the opposite color
     return (validMove(to_x, to_y) == 2);
 }

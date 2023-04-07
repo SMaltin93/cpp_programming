@@ -4,7 +4,7 @@
 
 #ifndef CHESSPIECE_H
 #define CHESSPIECE_H
-
+#include <string>
 #include <vector>
 #include "ChessMove.h"
 #include "ChessBoard.h"
@@ -49,7 +49,6 @@ public:
 
     bool isWhite() const; 
     
-   
     /**
     * For testing multiple inheritance
     */

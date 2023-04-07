@@ -3,6 +3,8 @@
 //
 
 #include "Pawn.h"
+#include "ChessBoard.h"
+#include <bits/stdc++.h>
 
 // Implement method definitions here
 
@@ -26,7 +28,7 @@ int Pawn::validMove(int to_x, int to_y) {
     int lastRow = 6;
     ChessPiece getPiece = m_board->operator()(to_x, to_y);
 
-    // if the pawn at the start position
+    // if thse pawn at the start position
 
 
 

@@ -13,18 +13,18 @@ using namespace std;
 int main() {
 
 ChessBoard chess;
-    stringstream s;
-    s << ".....Q.." << endl;
-    s << "...q...." << endl;
-    s << "......Q." << endl;
-    s << "q......." << endl;
-    s << ".......Q" << endl;
-    s << ".q......" << endl;
-    s << "....Q..." << endl;
-    s << "..q.....";
-    s >> chess;
-    chess.printBoard();
-    return 0;
+stringstream s;
+s << ".....Q.." << endl;
+s << "...q...." << endl;
+s << "......Q." << endl;
+s << "q......." << endl;
+s << ".......Q" << endl;
+s << ".q......" << endl;
+s << "....Q..." << endl;
+s << "..q.....";
+s >> chess;
+chess.printBoard();
+return 0;
 
     // test if the board is set correctl
 

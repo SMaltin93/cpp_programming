@@ -6,6 +6,7 @@
 #include <atomic>
 #include <thread>
 #include <vector>
+#include <unordered_map>
 
 using namespace std;
 
@@ -14,18 +15,23 @@ const int maxDrinkTime = 5;
 const int nrGnus = 5;
 const int nrHyenas = 5;
 
-int nrOfSimulations = 5;
+int nrOfSimulations = 1;
 bool trace = true; // set to false to turn off trace output
+
+unordered_map<thread::id, string> threadIdMap;
 
 class WaterManager {
 
 public:
+    // constructor
     WaterManager();
+    // destructor
+    ~WaterManager();
     void hyenaEnters();
     void gnuEnters();
     void hyenaLeaves();
     void gnuLeaves();
-    void traceOutput(string message);
+    
 
 
 private:
@@ -36,4 +42,5 @@ private:
 };
 void hyena (int id, WaterManager& waterManager);
 void gnu (int id, WaterManager& waterManager);
+void traceOutput(string message);
 #endif // WATERMANAGER_H

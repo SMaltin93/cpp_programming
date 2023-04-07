@@ -14,6 +14,8 @@ class ChessPiece;
 class ChessBoard {
     // add additional members or functions of your choice
 
+
+
 private:
     // Alternative 1 (the matrix owns the chess pieces):
     Matrix<shared_ptr<ChessPiece>> m_state; // Matrix from lab 2
