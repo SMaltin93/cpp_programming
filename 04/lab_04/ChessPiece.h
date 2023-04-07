@@ -13,7 +13,10 @@ using namespace std;
 
 class ChessPiece {
     friend void ChessBoard::movePiece(ChessMove p);
-    friend King;
+    friend ChessBoard & operator<<(ostream & os, ChessBoard & cb);
+    friend ChessBoard & operator>>(istream & is, ChessBoard & cb);
+
+
 
 protected:                               // protected will cause problems with multiple inheritance
     int m_x, m_y;
@@ -32,9 +35,10 @@ protected:                               // protected will cause problems with m
 
 public:
     // Constructor
-    ChessPiece(int x, int y, bool is_white, ChessBoard * board);
-
-
+    
+    ChessPiece(int x, int y, bool is_white, ChessBoard *board);
+    // Destructor
+    virtual ~ChessPiece();
     /**
      * Checks if this move is valid for this piece and captures
      * a piece of the opposite color.

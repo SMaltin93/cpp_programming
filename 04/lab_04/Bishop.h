@@ -7,8 +7,15 @@
 
 #include "ChessPiece.h"
 
-class Bishop : public ChessPiece {
-    // Override virtual methods from ChessPiece here
+class Bishop : virtual public ChessPiece {
+protected:
+    int validMove(int to_x, int to_y) override;
+    char32_t utfRepresentation() override;
+    char latin1Representation() override;
+
+public:
+    Bishop(int x, int y, bool is_white, ChessBoard *board);
+    ~Bishop();
 };
 
 

@@ -14,17 +14,20 @@ using namespace std;
 
 Knight::Knight(int x, int y, bool is_white, ChessBoard *board) : ChessPiece(x, y, is_white, board) {}
 
+
+Knight::~Knight() {}
+
 // A possible implementation to check valid moves for knights is to check if Δx² + Δy² is 5.
 
 int Knight::validMove(int to_x, int to_y) {
     int delta_x = abs(m_x - to_x);
     int delta_y = abs(m_y - to_y);
-    ChessPiece getPiece = m_board->operator()(to_x, to_y); 
+    shared_ptr<ChessPiece> getPiece = m_board->operator()(to_x, to_y);
     if (delta_x  * delta_x  + delta_y * delta_y == 5) {
-        if (getPiece.isWhite() == m_is_white) {
+        if (getPiece->isWhite() == m_is_white) {
             return 0;
         }
-        else if (getPiece.isWhite() != m_is_white) {
+        else if (getPiece->isWhite() != m_is_white) {
             return 2;
         }
         else {

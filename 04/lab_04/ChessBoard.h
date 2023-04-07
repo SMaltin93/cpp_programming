@@ -12,8 +12,9 @@ using namespace std;
 class ChessPiece;
 
 class ChessBoard {
-    // add additional members or functions of your choice
-
+   
+friend ChessBoard & operator>>(istream & is, ChessBoard & cb);
+friend ChessBoard & operator<<(ostream & os, ChessBoard & cb);
 
 
 private:
@@ -28,13 +29,14 @@ private:
     // vector<shared_ptr<ChessPiece>> m_black_pieces;
 
 public:
+    ChessBoard();
     void movePiece(ChessMove chess_move);
     vector<ChessMove> capturingMoves(bool is_white);
     vector<ChessMove> nonCapturingMoves(bool is_white);
 
-    void setPiece(int x, int y, ChessPiece * piece);
-    void removePiece(int x, int y);
-    ChessPiece & operator()( int x, int y) const;
+    void addPiece(int x, int y, shared_ptr<ChessPiece> piece);
+    void removePiece(int , int);
+    shared_ptr<ChessPiece> operator()(int, int) const;
 };
 
 ChessBoard & operator>>(istream & is, ChessBoard & cb);

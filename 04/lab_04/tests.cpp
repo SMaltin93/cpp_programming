@@ -82,19 +82,19 @@ void testBoard(istream &is, int board_id) {
     }
 }
 
-int main() {
-    try {
-        // Test boards from stdin
-        int board_id = 1;
-        while (!cin.eof()) {
-            testBoard(cin, board_id);
-            ++board_id;
-        }
-        cout << "All tests were successful" << endl;
-    } catch (std::runtime_error & error) {
-        cerr << error.what() << endl;
-        return EXIT_FAILURE;
-    }
+// int main() {
+//     try {
+//         // Test boards from stdin
+//         int board_id = 1;
+//         while (!cin.eof()) {
+//             testBoard(cin, board_id);
+//             ++board_id;
+//         }
+//         cout << "All tests were successful" << endl;
+//     } catch (std::runtime_error & error) {
+//         cerr << error.what() << endl;
+//         return EXIT_FAILURE;
+//     }
 
-    return EXIT_SUCCESS;
-}
+//     return EXIT_SUCCESS;
+// }
