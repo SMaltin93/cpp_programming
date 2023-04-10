@@ -5,12 +5,14 @@
 #include "Bishop.h"
 #include "Knight.h"
 #include "Pawn.h"
+#include <wchar.h>
+
 
 using namespace std;
 
-ChessBoard::ChessBoard() {
-    this->m_state = Matrix<shared_ptr<ChessPiece>>(8);
-} 
+// ChessBoard::ChessBoard() {
+//     this->m_state = Matrix<shared_ptr<ChessPiece>>(8);
+// } 
 
 void ChessBoard::movePiece(ChessMove chess_move) {
     
@@ -70,7 +72,6 @@ ChessBoard & operator>>(istream & is, ChessBoard & cb) {
             break;
             case 'Q':
             m_state(i,j) = make_shared<Queen>(i, j, true, &cb);
-            cout << m_state(i,j)->utfRepresentation() << endl;
             break;
             case 'q':
             m_state(i,j) = make_shared<Queen>(i, j, false, &cb);
@@ -110,7 +111,7 @@ ChessBoard & operator>>(istream & is, ChessBoard & cb) {
         }
 
     }
-
+    cb.m_state = m_state;
     return cb; 
 }
 
@@ -119,10 +120,16 @@ ChessBoard & operator>>(istream & is, ChessBoard & cb) {
 ChessBoard & operator<<(ostream & os, ChessBoard & cb) {
     // print the board to the output stream , print utfRepresentation of each piece
 
-  
-    os << cb.m_state;
-         
-       
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            if (cb.m_state(i,j) == nullptr) {
+                os << ".";
+            } else {
+                os << cb.m_state(i,j)->latin1Representation();
+            }
+        }
+        os << endl;
+    }
     return cb;
 }
 

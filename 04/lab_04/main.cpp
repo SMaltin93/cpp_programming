@@ -5,7 +5,8 @@
 #include "ChessBoard.h"
 #include "ChessPiece.h"
 #include "King.h"
-#include <bits/stdc++.h>
+#include <iostream>
+
 
 using namespace std;
 
@@ -28,6 +29,7 @@ ChessBoard chess;
 
     // print the board
     cout << chess;
+    
     
 
     if (v.size() != 0) {

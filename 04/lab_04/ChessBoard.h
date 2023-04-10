@@ -6,7 +6,6 @@
 #include <memory>
 #include "ChessMove.h"
 #include "Matrix.h"   // Use the "-I ../02" flag to let the compiler find Matrix.h
-
 using namespace std;
 
 class ChessPiece;
@@ -29,7 +28,7 @@ private:
     // vector<shared_ptr<ChessPiece>> m_black_pieces;
 
 public:
-    ChessBoard();
+   // ChessBoard();
     void movePiece(ChessMove chess_move);
     vector<ChessMove> capturingMoves(bool is_white);
     vector<ChessMove> nonCapturingMoves(bool is_white);
