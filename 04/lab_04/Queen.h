@@ -16,7 +16,7 @@ class Queen : public Bishop, public Rook {
 
     public:
         Queen(int x, int y, bool is_white, ChessBoard *board);
-        virtual ~Queen();
+        virtual ~Queen(); 
 };
 
 

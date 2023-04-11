@@ -26,11 +26,11 @@ ChessPiece::~ChessPiece() {}
 
 
 bool ChessPiece::capturingMove(int to_x, int to_y) { // capture move means that the move is valid and the target square is occupied by a piece of the opposite color
-    return (validMove(to_x, to_y) == 2);
+    return (this->validMove(to_x, to_y) == 2);
 }
 
 bool ChessPiece::nonCapturingMove(int to_x, int to_y) {
-    return (validMove(to_x, to_y) == 1);
+    return (this->validMove(to_x, to_y) == 1);
 }
 
 bool ChessPiece::isWhite() const {
@@ -43,9 +43,10 @@ vector<ChessMove> ChessPiece::capturingMoves() {
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
             if (capturingMove(i, j)) {
-                ChessMove move = {m_x, m_y, i, j, this};
+                ChessMove move = {m_x,m_y, i, j, this};
                 capturing_moves.push_back(move);
             }
+            
         }
     }
     return capturing_moves;
@@ -57,7 +58,7 @@ vector<ChessMove> ChessPiece::nonCapturingMoves() {
     vector<ChessMove> non_capturing_moves;
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
-            if (nonCapturingMove(i, j)) {
+            if (nonCapturingMove(i, j) ) {
                 ChessMove move = {m_x, m_y, i, j, this};
                 non_capturing_moves.push_back(move);
             }

@@ -22,7 +22,7 @@ protected:
 
 public:
     King(int x, int y, bool is_white, ChessBoard *board);
-    ~King();
+
 };
 
 

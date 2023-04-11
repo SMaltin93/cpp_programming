@@ -3,16 +3,7 @@
 //
 
 #include "Pawn.h"
-#include "ChessBoard.h"
-#include <bits/stdc++.h>
 
-// Implement method definitions here
-
-#include "ChessBoard.h"
-#include "ChessMove.h"
-#include "ChessPiece.h"
-
-#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -23,43 +14,53 @@ Pawn::~Pawn() {}
 
 
 int Pawn::validMove(int to_x, int to_y) {
-
-    // An implementation for capturingmove is to check y+1, x+1 and x-1 and for the other color; y-1, x+1 and x-1.
-    // The non-capturing move needs to check if there is a blocking piece at y+1/y-1.
+    int white_start = 6;
+    int black_start = 1;
     int delta_x = abs(m_x - to_x);
-    int delta_y = m_y - to_y; // delta_y is negative if the pawn moves up
-    int start = 1;
-    int lastRow = 6;
-    shared_ptr<ChessPiece> getPiece = m_board->operator()(to_x, to_y);
+    int delta_y = abs(m_y - to_y);
+    shared_ptr<ChessPiece> piece = (*m_board)(to_x, to_y);
 
-    if (delta_x == 0) {
+  
+    // capturing 
+    if (delta_x == 1 && delta_y == 1) {
+        if (piece != nullptr  && piece->isWhite() != m_is_white) {
+            if( (m_is_white && to_y < m_y) || (!m_is_white && to_y > m_y) ) {
+                return 2;
+            } 
+        }
+    }
 
-        if (getPiece != nullptr) {
-            return 0;
-        }
-        // a pawn cant move backwards
-        if ((m_is_white && m_y > to_y) || (!m_is_white && m_y < to_y)) {
-            return 0;
-        }
-        // a pawn can move 2 steps if it is in its starting position
-        if ( (m_is_white && m_y == lastRow && delta_y == 2 ) || (!m_is_white && m_y == start && delta_y == -2) ) {
-           // check if there is a piece in the way
-           if ( (*m_board)(to_x, to_y - 1) == nullptr) {
-               return 1;
-           }
-        }
-        // a pawn can move 1 step
-        if ( (m_is_white && delta_y == 1) || (!m_is_white && delta_y == -1) ) {
-            return 1;
-        }
+    // non_capturing
+    if (delta_x == 0 && piece == nullptr) {
+        // handel the first move
+        if (m_is_white && to_y < m_y) {
 
-    } else if (delta_x == 1 && delta_y == 1) {
-      
-      if (getPiece != nullptr) {
-        if (getPiece->isWhite() != m_is_white) {
-          return 2;
+            if (m_y == white_start && delta_y == 2) {
+                // dont allow jumping
+                ChessPiece* p = (*m_board)(m_x, white_start-1).get();
+                if (p == nullptr) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+
+            } else if (delta_y == 1) {
+                return 1;
+            }
+
+        } else if (!m_is_white && to_y > m_y) {
+            // dont allow jumping
+            if (m_y == black_start && delta_y == 2) {
+                ChessPiece* p = (*m_board)(m_x, black_start + 1).get();
+                if (p == nullptr) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            } else if (delta_y == 1) {
+                return 1;
+            }
         }
-      }
     }
     return 0;
 }

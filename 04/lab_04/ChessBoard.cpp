@@ -16,20 +16,12 @@ using namespace std;
 
 void ChessBoard::movePiece(ChessMove chess_move) {
     
-    shared_ptr<ChessPiece> piece = m_state(chess_move.from_x, chess_move.from_y);
-    m_state(chess_move.to_x, chess_move.to_y) = piece;
-    m_state(chess_move.from_x, chess_move.from_y) = nullptr;
 
 }
 
 vector<ChessMove> ChessBoard::capturingMoves(bool is_white) {
     vector<ChessMove> moves;
-    vector<ChessPiece *> pieces;
-    if(is_white) {
-        pieces = m_white_pieces;
-    } else {
-        pieces = m_black_pieces;
-    }
+    vector<ChessPiece *> pieces = is_white ? m_white_pieces : m_black_pieces;
     for (ChessPiece * piece : pieces) {
         vector<ChessMove> piece_moves = piece->capturingMoves();
         for (ChessMove move : piece_moves) {
@@ -41,12 +33,7 @@ vector<ChessMove> ChessBoard::capturingMoves(bool is_white) {
 
 vector<ChessMove> ChessBoard::nonCapturingMoves(bool is_white) {
     vector<ChessMove> moves;
-    vector<ChessPiece *> pieces;
-    if(is_white) {
-        pieces = m_white_pieces;
-    } else {
-        pieces = m_black_pieces;
-    }
+    vector<ChessPiece *> pieces = is_white ? m_white_pieces : m_black_pieces;
     for (ChessPiece * piece : pieces) {
         vector<ChessMove> piece_moves = piece->nonCapturingMoves();
         for (ChessMove move : piece_moves) {
@@ -57,61 +44,66 @@ vector<ChessMove> ChessBoard::nonCapturingMoves(bool is_white) {
 }
 
 ChessBoard & operator>>(istream & is, ChessBoard & cb) {
-    Matrix<shared_ptr<ChessPiece>> m_state(8);
     
-    for (int i = 0; i < 8; i++) {
-        for (int j = 0; j < 8; j++) {
+    Matrix<shared_ptr<ChessPiece>> m(8, 8);
+    
+    for (int y = 0; y < 8; y++) {
+
+        for (int x = 0; x < 8; x++) {
             char c; 
             is >> c;
             switch (c) {
             case 'K':
-            m_state(i,j) = make_shared<King>(i, j, true, &cb);
+            m(x,y) = make_shared<King>(x, y, true, &cb);
             break;
             case 'k':
-            m_state(i,j) = make_shared<King>(i, j, false, &cb);
+            m(x,y) = make_shared<King>(x, y, false, &cb);
             break;
             case 'Q':
-            m_state(i,j) = make_shared<Queen>(i, j, true, &cb);
+            m(x,y) = make_shared<Queen>(x, y, true, &cb);
             break;
             case 'q':
-            m_state(i,j) = make_shared<Queen>(i, j, false, &cb);
+            m(x,y) = make_shared<Queen>(x, y, false, &cb);
             break;
             case 'R':
-            m_state(i,j) = make_shared<Rook>(i, j, true, &cb);
+            m(x,y) = make_shared<Rook>(x, y, true, &cb);
             break;
             case 'r':
-            m_state(i,j) = make_shared<Rook>(i, j, false, &cb);
+            m(x,y) = make_shared<Rook>(x, y, false, &cb);
             break;
             case 'B':
-            m_state(i,j) = make_shared<Bishop>(i, j, true, &cb);
+            m(x,y) = make_shared<Bishop>(x, y, true, &cb);
             break;
             case 'b':
-            m_state(i,j) = make_shared<Bishop>(i, j, false, &cb);
+            m(x,y) = make_shared<Bishop>(x, y, false, &cb);
             break;
             case 'N':
-            m_state(i,j) = make_shared<Knight>(i, j, true, &cb);
+            m(x,y) = make_shared<Knight>(x, y, true, &cb);
             break;
             case 'n':
-            m_state(i,j) = make_shared<Knight>(i, j, false, &cb);
+            m(x,y) = make_shared<Knight>(x, y, false, &cb);
             break;
             case 'P':
-            m_state(i,j) = make_shared<Pawn>(i, j, true, &cb);
+            m(x,y) = make_shared<Pawn>(x, y, true, &cb);
             break;
             case 'p':
-            m_state(i,j) = make_shared<Pawn>(i, j, false, &cb);
+            m(x,y) = make_shared<Pawn>(x, y, false, &cb);
             break;
             case '.':
-            m_state(i,j) = nullptr;
+            m(x,y) = nullptr;
             break;
             }
-            // add piece to white or black pieces
-            if (m_state(i,j) != nullptr) {
-                cb.addPiece(i,j, m_state(i,j));
+            if (m(x,y) != nullptr) {
+                 if (m(x,y)->isWhite()) {
+                    cb.m_white_pieces.push_back(m(x,y).get());
+                } else {
+                    cb.m_black_pieces.push_back(m(x,y).get());
+                }
             }
         }
-
     }
-    cb.m_state = m_state;
+    cb.m_state = m;
+    // add peices to white and black pieces
     return cb; 
 }
 
@@ -135,7 +127,7 @@ ChessBoard & operator<<(ostream & os, ChessBoard & cb) {
 
 
 void ChessBoard::addPiece(int x, int y, shared_ptr<ChessPiece> piece) {
-
+    
     if (piece->isWhite()) {
         m_white_pieces.push_back(piece.get());
     } else {

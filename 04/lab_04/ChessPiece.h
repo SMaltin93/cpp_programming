@@ -14,7 +14,6 @@ using namespace std;
 class ChessPiece {
     friend void ChessBoard::movePiece(ChessMove p);
     friend ChessBoard & operator<<(ostream & os, ChessBoard & cb);
-    friend ChessBoard & operator>>(istream & is, ChessBoard & cb);
 
 
 

@@ -7,7 +7,6 @@
 #include "ChessMove.h"
 #include "ChessPiece.h"
 
-#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -15,7 +14,7 @@ using namespace std;
 
 King::King(int x, int y, bool is_white, ChessBoard *board) : ChessPiece(x, y, is_white, board) {}
 
-King::~King() {}
+
 
 // the king formula is either Δx * Δy is one or Δx + Δy is one
 // Let Δx be abs(x1-x2) and Δy be abs(y1-y2)
@@ -28,24 +27,22 @@ King::~King() {}
  * Returns 2 if move captures a piece.
  */
 int King::validMove(int to_x, int to_y) {
+
     int delta_x = abs(m_x - to_x);
     int delta_y = abs(m_y - to_y);
-    shared_ptr<ChessPiece> getPiece = m_board->operator()(to_x, to_y);
-    if (delta_x * delta_y == 1 || delta_x + delta_y == 1) {
+    shared_ptr<ChessPiece> getPiece = (*m_board)(to_x, to_y);
 
-        if (getPiece->isWhite() == m_is_white) {
-            return 0;
+    if (delta_x * delta_y == 1 || delta_x + delta_y == 1) {
+        if (getPiece == nullptr) {
+            return 1;
         }
         else if (getPiece->isWhite() != m_is_white) {
             return 2;
+        }else {
+            return 0;
         }
-        else {
-            return 1;
-        }
- 
-    } else {
-        return 0;
     }
+    return 0;
 }
 
 char32_t King::utfRepresentation() {

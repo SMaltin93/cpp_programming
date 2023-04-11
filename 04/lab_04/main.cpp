@@ -40,5 +40,4 @@ ChessBoard chess;
 
     // test if the board is set correctl
 
-
 }

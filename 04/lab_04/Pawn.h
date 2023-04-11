@@ -9,6 +9,7 @@
 
 class Pawn : public ChessPiece {
     // Override virtual methods from ChessPiece here
+    
 
     protected:
         int validMove(int to_x, int to_y) override;
@@ -19,6 +20,7 @@ class Pawn : public ChessPiece {
         Pawn(int x, int y, bool is_white, ChessBoard *board);
         ~Pawn();
 };
+
 
 
 #endif //PAWN_H

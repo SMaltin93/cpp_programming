@@ -22,21 +22,19 @@ Knight::~Knight() {}
 int Knight::validMove(int to_x, int to_y) {
     int delta_x = abs(m_x - to_x);
     int delta_y = abs(m_y - to_y);
+    if ((delta_x  * delta_x  + delta_y * delta_y) == 5) {
     shared_ptr<ChessPiece> getPiece = m_board->operator()(to_x, to_y);
-    if (delta_x  * delta_x  + delta_y * delta_y == 5) {
-        if (getPiece->isWhite() == m_is_white) {
+
+        if (getPiece == nullptr) {
+            return 1;
+        } else if (getPiece->isWhite() != m_is_white) {
+            return 2;
+        }else {
             return 0;
         }
-        else if (getPiece->isWhite() != m_is_white) {
-            return 2;
-        }
-        else {
-            return 1;
-        }
-    } else {
-        return 0;
-    }    
-
+    
+    } 
+    return 0;
 }
 
 char32_t Knight::utfRepresentation() {

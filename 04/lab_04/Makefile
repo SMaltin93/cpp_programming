@@ -1,5 +1,17 @@
 all:
-	g++ -Wall -o chess *.cpp
+	g++ -Wall -o chess tests.cpp ChessBoard.cpp ChessPiece.cpp King.cpp Queen.cpp Bishop.cpp Knight.cpp Rook.cpp Pawn.cpp
+	
 
 debug:
-	g++ -Wall -g -o chess *.cpp
+	g++ -Wall -g -o chess tests.cpp ChessBoard.cpp ChessPiece.cpp King.cpp Queen.cpp Bishop.cpp Knight.cpp Rook.cpp Pawn.cpp
+
+main: 
+	g++ -Wall -o chess main.cpp ChessBoard.cpp ChessPiece.cpp King.cpp Queen.cpp Bishop.cpp Knight.cpp Rook.cpp Pawn.cpp
+
+testin: all
+	./chess < tests.in 
+
+git:
+	git add .
+	git commit -m "lab 04"
+	git push

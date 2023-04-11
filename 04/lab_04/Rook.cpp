@@ -60,11 +60,15 @@ int Rook::validMove(int to_x, int to_y) {
         } 
     }
 
-    if ( (getPiece != NULL )&& (getPiece->isWhite() != m_is_white) ) {
+    if ( (getPiece != nullptr )&& (getPiece->isWhite() != m_is_white) ) {
         return 2;
     }
     // the rook can move to an empty square
-    return 1; 
+    if (getPiece == nullptr) {
+        return 1;
+    }
+
+    return 0;
 }
 
 
