@@ -32,10 +32,9 @@ public:
     void movePiece(ChessMove chess_move);
     vector<ChessMove> capturingMoves(bool is_white);
     vector<ChessMove> nonCapturingMoves(bool is_white);
-
-    void addPiece(int x, int y, shared_ptr<ChessPiece> piece);
-    void removePiece(int , int);
     shared_ptr<ChessPiece> operator()(int, int) const;
+
+    void removePiece(int, int , ChessPiece *);
 };
 
 ChessBoard & operator>>(istream & is, ChessBoard & cb);

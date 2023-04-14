@@ -16,7 +16,23 @@ using namespace std;
 
 void ChessBoard::movePiece(ChessMove chess_move) {
     
+    cout << m_black_pieces.size() << endl;
+    cout << m_white_pieces.size() << endl;
 
+    if (m_state(chess_move.to_x, chess_move.to_y) != nullptr) {
+        removePiece(chess_move.to_x, chess_move.to_y, m_state(chess_move.to_x, chess_move.to_y).get());
+    }
+
+    ChessPiece *piece = chess_move.piece;
+    piece->m_x = chess_move.to_x;
+    piece->m_y = chess_move.to_y;
+
+    m_state(chess_move.to_x, chess_move.to_y) = m_state(chess_move.from_x, chess_move.from_y); // move the piece to the new position
+
+    m_state(chess_move.from_x, chess_move.from_y) = nullptr;
+
+
+    
 }
 
 vector<ChessMove> ChessBoard::capturingMoves(bool is_white) {
@@ -114,10 +130,10 @@ ChessBoard & operator<<(ostream & os, ChessBoard & cb) {
 
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
-            if (cb.m_state(i,j) == nullptr) {
+            if (cb.m_state(j,i) == nullptr) {
                 os << ".";
             } else {
-                os << cb.m_state(i,j)->latin1Representation();
+                os << cb.m_state(j,i)->latin1Representation();
             }
         }
         os << endl;
@@ -125,33 +141,27 @@ ChessBoard & operator<<(ostream & os, ChessBoard & cb) {
     return cb;
 }
 
-
-void ChessBoard::addPiece(int x, int y, shared_ptr<ChessPiece> piece) {
-    
+void ChessBoard::removePiece(int x, int y , ChessPiece * piece) {
+    // remove the piece from the board
     if (piece->isWhite()) {
-        m_white_pieces.push_back(piece.get());
+        for (size_t i = 0; i < m_white_pieces.size(); i++) {
+            if (m_white_pieces[i] == piece) {
+                m_white_pieces.erase(m_white_pieces.begin() + i);
+                break;
+            }
+        }
     } else {
-        m_black_pieces.push_back(piece.get());
-    }
-        
-}
-
-void ChessBoard::removePiece(int x, int y) {
-    m_state(x,y) = nullptr;
-    // remove (x,y) from white or black pieces
-    vector<ChessPiece *> vector_to_remove_from;
-    if (m_state(x,y)->isWhite()) {
-        vector_to_remove_from = m_white_pieces;
-    } else {
-        vector_to_remove_from = m_black_pieces;
-    } 
-
-    for (auto it = vector_to_remove_from.begin(); it != vector_to_remove_from.end(); it++) {
-        if ( (*it) == m_state(x,y).get() ) {
-            vector_to_remove_from.erase(it);
-            break;
+        for (size_t i = 0; i < m_black_pieces.size(); i++) {
+            if (m_black_pieces[i] == piece) {
+                m_black_pieces.erase(m_black_pieces.begin() + i);
+                break;
+            }
         }
     }
+
+    // remove from the board
+
+
 }
 
 shared_ptr<ChessPiece> ChessBoard::operator()(int x, int y) const {

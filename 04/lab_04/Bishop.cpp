@@ -26,15 +26,24 @@ int Bishop::validMove(int to_x, int to_y) {
 
     //  not jumping over pieces
     for (int i = 1; i < delta_x; i++) { // i = 1 because we don't need to check the first square
+
         if (m_x < to_x && m_y < to_y) {
+
             if ((*m_board)(m_x + i, m_y + i) != nullptr) return 0; // case that x , y + 1 is not empty
+
         } else if (m_x < to_x && m_y > to_y) {
+
             if ((*m_board)(m_x + i, m_y - i) != nullptr) return 0; // case that x , y - 1 is not empty
+
         } else if (m_x > to_x && m_y < to_y) {
+
             if ((*m_board)(m_x - i, m_y + i) != nullptr) return 0; // case that x , y + 1 is not empty
+
         } else if (m_x > to_x && m_y > to_y) {
+            
             if ((*m_board)(m_x - i, m_y - i) != nullptr) return 0;     // case that x , y - 1 is not empty
         }
+
     }
 
     // return 2 cases ////////////////////////////////////////////////////

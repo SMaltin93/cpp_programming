@@ -116,7 +116,7 @@ PPPP.PPP
 RNBQKBNR
 0  # capturing moves for white ///10 
 0  # capturing moves for black 
-30 # 0 non-capturing moves for white  (fill in the real expected value k= 1, N = 3, 2 ,(p= 2*7 , 1), B = 5, Q = 4 = 30  )
+30 # 0 non-capturing moves for white  (fill in the real expected value K= 1, N = 3, 2 ,(p= 2*7 , 1), B = 5, Q = 4 = 30  )
 20 # 0 non-capturing moves for black  (fill in the real expected value)
 rnbqkbnr
 p.pppppp
@@ -140,5 +140,5 @@ Q.P..pp.
 ......NR
 4 # three pawns and one knight can strike  ###### 12
 3 # (p)awns can strike three different (P)awns
-20 # 0 non-capturing moves for white  (fill in the real expected value P = 2,1  N=2, Q =1,2,2,5,5  )
+20 # 0 non-capturing moves for white  (fill in the real expected value P = 2,1  N=2, Q =1,2,2,5,5  = 20)
 2 # 0 non-capturing moves for black  (fill in the real expected value)
