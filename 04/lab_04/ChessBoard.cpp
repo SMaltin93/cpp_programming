@@ -6,19 +6,16 @@
 #include "Knight.h"
 #include "Pawn.h"
 #include <wchar.h>
+#include <string>
+#include <random>
 
 
 using namespace std;
+ // remove the piece from the board
 
-// ChessBoard::ChessBoard() {
-//     this->m_state = Matrix<shared_ptr<ChessPiece>>(8);
-// } 
 
 void ChessBoard::movePiece(ChessMove chess_move) {
     
-    cout << m_black_pieces.size() << endl;
-    cout << m_white_pieces.size() << endl;
-
     if (m_state(chess_move.to_x, chess_move.to_y) != nullptr) {
         removePiece(chess_move.to_x, chess_move.to_y, m_state(chess_move.to_x, chess_move.to_y).get());
     }
@@ -141,12 +138,47 @@ ChessBoard & operator<<(ostream & os, ChessBoard & cb) {
     return cb;
 }
 
+
+void ChessBoard::printBoard(ChessBoard * cb) {
+    // print the board to the output stream , print utfRepresentation of each piece
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            if (cb->m_state(j,i) == nullptr) {
+                cout << ". " ;
+            } else {
+                cout <<  presentPiecesAsUnicode(cb->m_state(j,i)->latin1Representation()) << " ";
+            }
+        }
+        cout << endl;
+    }
+}
+
+string ChessBoard::presentPiecesAsUnicode(char piece) {
+    // return as red or black
+    if (piece == 'K') return "♚";
+    if (piece == 'k') return "♔";
+    if (piece == 'Q') return "♛";
+    if (piece == 'q') return "♕";
+    if (piece == 'R') return "♜";
+    if (piece == 'r') return "♖";
+    if (piece == 'B') return "♝";
+    if (piece == 'b') return "♗";
+    if (piece == 'N') return "♞";
+    if (piece == 'n') return "♘";
+    if (piece == 'P') return "♟";
+    if (piece == 'p') return "♙";
+
+    return "";
+  }
+
 void ChessBoard::removePiece(int x, int y , ChessPiece * piece) {
-    // remove the piece from the board
+   
     if (piece->isWhite()) {
         for (size_t i = 0; i < m_white_pieces.size(); i++) {
             if (m_white_pieces[i] == piece) {
                 m_white_pieces.erase(m_white_pieces.begin() + i);
+                // the black captured a white piece
+                cout << "Black captured the white piece " << black_capture_white.append(" "+presentPiecesAsUnicode(piece->latin1Representation())+" ") << endl;
                 break;
             }
         }
@@ -154,16 +186,151 @@ void ChessBoard::removePiece(int x, int y , ChessPiece * piece) {
         for (size_t i = 0; i < m_black_pieces.size(); i++) {
             if (m_black_pieces[i] == piece) {
                 m_black_pieces.erase(m_black_pieces.begin() + i);
+                // the white captured a black piece
+                cout << "White captured the black piece " << white_capture_black.append(" "+presentPiecesAsUnicode(piece->latin1Representation())+" ") << endl;
                 break;
             }
         }
     }
 
-    // remove from the board
-
-
 }
 
 shared_ptr<ChessPiece> ChessBoard::operator()(int x, int y) const {
     return m_state(x,y);
+}
+
+int ChessBoard::generateRandomNumber(int const min, int const max) {
+    // generate a random number between min and max
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_int_distribution<> dis(min, max);
+    return dis(gen);
+}
+
+void ChessBoard::ai1_moves(ChessBoard *chess, bool is_white, vector<int> *game_scoure, string *piece) {
+// alla capture moves
+vector<ChessMove> capture = chess->capturingMoves(is_white);
+// alla non capture moves
+vector<ChessMove> non_capture = chess->nonCapturingMoves(is_white);
+
+    if (capture.size() > 0) {
+        // random move
+        int random = generateRandomNumber(0, capture.size() - 1);
+        chess->movePiece(capture[random]);
+        // update the game score
+        game_scoure->at(2)++;
+        // update the piece
+        *piece = " " + presentPiecesAsUnicode(capture[random].piece->latin1Representation()) + " ";
+
+
+
+        
+    } else if (non_capture.size() > 0) {
+    // random move
+        int random = generateRandomNumber(0, non_capture.size() - 1);
+        chess->movePiece(non_capture[random]);
+        *piece = " " + presentPiecesAsUnicode(non_capture[random].piece->latin1Representation()) + " ";
+    } else {
+        cout << " No moves left for the AI 1 player " << endl;
+    }
+}
+
+void ChessBoard::ai2_moves(ChessBoard *chess, bool is_white, vector<int> *game_scoure, string *piece) {
+
+    vector<ChessMove> capture = chess->capturingMoves(is_white);
+    vector<ChessMove> non_capture = chess->nonCapturingMoves(is_white);
+    bool can_capture = false;
+
+    // will minimize the number of capturing moves for the opponent
+    if (non_capture.size() > 0) {
+
+        for (auto &move : non_capture) {
+            // save the current position for moving back
+            int from_x = move.from_x;
+            int from_y = move.from_y;
+            int to_x = move.to_x;
+            int to_y = move.to_y;
+            ChessPiece *p = move.piece;
+            // make the move
+            chess->movePiece(move);
+            vector<ChessMove> opponent_capture = chess->capturingMoves(!is_white);
+            if (opponent_capture.size() > 0) {
+                // delete the move from the possible moves
+                for (size_t i = 0; i < non_capture.size(); i++) {
+                    if (non_capture[i].piece == move.piece) {
+                        non_capture.erase(non_capture.begin() + i);
+                    }
+                }
+                can_capture = true;
+                chess->movePiece(ChessMove{to_x, to_y, from_x, from_y, p}); 
+                break;
+            }else chess->movePiece(ChessMove{to_x, to_y, from_x, from_y, p}); 
+        }
+        
+        if (can_capture) {
+            
+            if (capture.size() > 0) {
+                int random = generateRandomNumber(0, capture.size() - 1);
+                chess->movePiece(capture[random]);
+                // update the game score
+                game_scoure->at(3)++;
+                // update the piece
+                *piece = " " + presentPiecesAsUnicode(capture[random].piece->latin1Representation()) + " ";
+                can_capture = false;
+            } else {
+                int random = generateRandomNumber(0, non_capture.size() - 1);
+                chess->movePiece(non_capture[random]);
+                *piece = " " + presentPiecesAsUnicode(non_capture[random].piece->latin1Representation()) + " ";
+                can_capture = false;
+            }
+
+        } else {
+            int random = generateRandomNumber(0, non_capture.size() - 1);
+            chess->movePiece(non_capture[random]);
+            *piece = " " + presentPiecesAsUnicode(non_capture[random].piece->latin1Representation()) + " ";
+        }
+
+    } else if (capture.size() > 0) {
+
+        for (auto &move : capture) {
+            // save the current position for moving back
+            int from_x = move.from_x;
+            int from_y = move.from_y;
+            int to_x = move.to_x;
+            int to_y = move.to_y;
+            ChessPiece *p = move.piece;
+            // make the move
+            chess->movePiece(move);
+            vector<ChessMove> opponent_capture = chess->capturingMoves(!is_white);
+            if (opponent_capture.size() > 0) {
+                // delete the move from the possible moves
+                for (size_t i = 0; i < capture.size(); i++) {
+                    if (capture[i].piece == move.piece) {
+                        capture.erase(capture.begin() + i);
+                    }
+                }
+                chess->movePiece(ChessMove{to_x, to_y, from_x, from_y, p});
+                can_capture = true;
+                break;
+            } else chess->movePiece(ChessMove{to_x, to_y, from_x, from_y, p});  
+
+        }  if (can_capture) {
+            // random move
+            int random = generateRandomNumber(0, capture.size() - 1);
+            chess->movePiece(capture[random]);
+            // update the game score
+            game_scoure->at(3)++;
+            // update the piece
+            *piece = " " + presentPiecesAsUnicode(capture[random].piece->latin1Representation()) + " ";
+            can_capture = false;
+        } else {
+            int random = generateRandomNumber(0, non_capture.size() - 1);
+            chess->movePiece(non_capture[random]);
+            *piece = " " + presentPiecesAsUnicode(non_capture[random].piece->latin1Representation()) + " ";
+        }
+        
+    } else {
+        cout << " No moves left for the AI 2 player " << endl;
+    }
+
 }

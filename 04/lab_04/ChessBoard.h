@@ -14,18 +14,14 @@ class ChessBoard {
    
 friend ChessBoard & operator>>(istream & is, ChessBoard & cb);
 friend ChessBoard & operator<<(ostream & os, ChessBoard & cb);
-
+string white_capture_black = "";
+string black_capture_white = "";
 
 private:
     // Alternative 1 (the matrix owns the chess pieces):
     Matrix<shared_ptr<ChessPiece>> m_state; // Matrix from lab 2
     vector<ChessPiece *> m_white_pieces;
     vector<ChessPiece *> m_black_pieces;
-
-    // Alternative 2 (the vectors own the chess pieces):
-    // Matrix<ChessPiece *> m_state; // Matrix from lab 2
-    // vector<shared_ptr<ChessPiece>> m_white_pieces;
-    // vector<shared_ptr<ChessPiece>> m_black_pieces;
 
 public:
    // ChessBoard();
@@ -34,8 +30,14 @@ public:
     vector<ChessMove> nonCapturingMoves(bool is_white);
     shared_ptr<ChessPiece> operator()(int, int) const;
 
-    void removePiece(int, int , ChessPiece *);
+  void removePiece(int, int , ChessPiece *);
+  void printBoard(ChessBoard  *cb);
+  string presentPiecesAsUnicode(char piece);
+  void ai1_moves(ChessBoard *, bool, vector<int>*, string*);
+  void ai2_moves(ChessBoard *, bool, vector<int>*, string*);  
+  int generateRandomNumber(int const, int const);  
 };
+
 
 ChessBoard & operator>>(istream & is, ChessBoard & cb);
 ChessBoard & operator<<(ostream & os, ChessBoard & cb);

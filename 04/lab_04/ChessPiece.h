@@ -14,7 +14,11 @@ using namespace std;
 class ChessPiece {
     friend void ChessBoard::movePiece(ChessMove p);
     friend ChessBoard & operator<<(ostream & os, ChessBoard & cb);
-
+    // friend printBoard(ChessBoard & cb);
+    friend void ChessBoard::printBoard(ChessBoard *cb);
+    friend void ChessBoard::ai1_moves(ChessBoard *, bool, vector<int> *, string*);
+    friend void ChessBoard::ai2_moves(ChessBoard *, bool, vector<int> *, string*);
+    friend void ChessBoard::removePiece(int, int, ChessPiece *);
 
 
 protected:                               // protected will cause problems with multiple inheritance
