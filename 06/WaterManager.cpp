@@ -42,7 +42,7 @@ void WaterManager::hyenaLeaves() {
     lock_guard<std::mutex> lock(mtx); // 
     hyenasInside --;
     CONDITIONVAR.notify_all();
-    traceOutput(threadIdMap[this_thread::get_id()] + " finished drinking and exits the water cave");
+    traceOutput(threadIdMap[this_thread::get_id()] + " finished drinking and exits the water cave ");
 }
 
 void WaterManager::gnuLeaves() {
@@ -67,8 +67,11 @@ void hyena(int id, WaterManager& watermanager) {
         threadIdMap[this_thread::get_id()] = "Hyena nr " + to_string(id);
         int sleepTime = rand() % maxSleepTime + 1;
         this_thread::sleep_for(chrono::seconds(sleepTime));
+        lock_guard<mutex> lock(mtx);
         // get the value of the thread id and print it
         traceOutput(threadIdMap[this_thread::get_id()] + " is thirsty\n" );
+        // free mutex
+        lock.~lock_guard();
         watermanager.hyenaEnters();
         int drinkTime = (rand() % maxDrinkTime + 1);
         this_thread::sleep_for(chrono::seconds(drinkTime));

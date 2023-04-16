@@ -31,7 +31,10 @@ class Gnu {
                 watermanager->setGnusId(id);
                 int sleepTime = rand() % maxSleepTime + 1;
                 this_thread::sleep_for(chrono::seconds(sleepTime));
+                lock_guard<mutex> lock(mtx);
                 cout << *this  << " is thirsty and wants to drink " << endl;
+                // free mutex
+                lock.~lock_guard();
                 watermanager->gnuEnters();
                 int drinkTime = rand() % maxDrinkTime + 1;
                 this_thread::sleep_for(chrono::seconds(drinkTime));
@@ -40,7 +43,7 @@ class Gnu {
         }
 
         friend ostream& operator<<(ostream& os, const Gnu& gnu) {
-            os << "Gnu " << gnu.id << " ";
+            os << "Gnu nr " << gnu.id << " ";
             return os;
         }
 
