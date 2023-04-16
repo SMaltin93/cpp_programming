@@ -14,6 +14,7 @@ class ChessBoard {
    
 friend ChessBoard & operator>>(istream & is, ChessBoard & cb);
 friend ChessBoard & operator<<(ostream & os, ChessBoard & cb);
+
 string white_capture_black = "";
 string black_capture_white = "";
 
@@ -30,12 +31,18 @@ public:
     vector<ChessMove> nonCapturingMoves(bool is_white);
     shared_ptr<ChessPiece> operator()(int, int) const;
 
-  void removePiece(int, int , ChessPiece *);
+  void removePiece(int, int , ChessPiece *, bool);
   void printBoard(ChessBoard  *cb);
   string presentPiecesAsUnicode(char piece);
   void ai1_moves(ChessBoard *, bool, vector<int>*, string*);
   void ai2_moves(ChessBoard *, bool, vector<int>*, string*);  
   int generateRandomNumber(int const, int const);  
+
+  pair<vector<int>, bool> checkPawn(ChessPiece *);
+  void switchPawn(ChessBoard *, int, int, bool);
+
+                
+
 };
 
 

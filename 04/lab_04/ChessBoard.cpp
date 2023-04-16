@@ -17,19 +17,21 @@ using namespace std;
 void ChessBoard::movePiece(ChessMove chess_move) {
     
     if (m_state(chess_move.to_x, chess_move.to_y) != nullptr) {
-        removePiece(chess_move.to_x, chess_move.to_y, m_state(chess_move.to_x, chess_move.to_y).get());
+        removePiece(chess_move.to_x, chess_move.to_y, m_state(chess_move.to_x, chess_move.to_y).get(), false);
     }
 
     ChessPiece *piece = chess_move.piece;
     piece->m_x = chess_move.to_x;
     piece->m_y = chess_move.to_y;
-
     m_state(chess_move.to_x, chess_move.to_y) = m_state(chess_move.from_x, chess_move.from_y); // move the piece to the new position
+    m_state(chess_move.from_x, chess_move.from_y) = nullptr; 
 
-    m_state(chess_move.from_x, chess_move.from_y) = nullptr;
-
-
-    
+    // check if pawn can be switched
+    pair<vector<int>, bool> pawn = checkPawn(piece);
+    if (pawn.second) {
+        switchPawn(this, pawn.first[0], pawn.first[1], piece->isWhite());
+    }
+ 
 }
 
 vector<ChessMove> ChessBoard::capturingMoves(bool is_white) {
@@ -171,13 +173,14 @@ string ChessBoard::presentPiecesAsUnicode(char piece) {
     return "";
   }
 
-void ChessBoard::removePiece(int x, int y , ChessPiece * piece) {
+void ChessBoard::removePiece(int x, int y , ChessPiece * piece, bool pawn_prompted) {
    
     if (piece->isWhite()) {
         for (size_t i = 0; i < m_white_pieces.size(); i++) {
             if (m_white_pieces[i] == piece) {
                 m_white_pieces.erase(m_white_pieces.begin() + i);
                 // the black captured a white piece
+                if (pawn_prompted) break;
                 cout << "Black captured the white piece " << black_capture_white.append(" "+presentPiecesAsUnicode(piece->latin1Representation())+" ") << endl;
                 break;
             }
@@ -187,6 +190,7 @@ void ChessBoard::removePiece(int x, int y , ChessPiece * piece) {
             if (m_black_pieces[i] == piece) {
                 m_black_pieces.erase(m_black_pieces.begin() + i);
                 // the white captured a black piece
+                if (pawn_prompted) break;
                 cout << "White captured the black piece " << white_capture_black.append(" "+presentPiecesAsUnicode(piece->latin1Representation())+" ") << endl;
                 break;
             }
@@ -213,6 +217,8 @@ vector<ChessMove> capture = chess->capturingMoves(is_white);
 // alla non capture moves
 vector<ChessMove> non_capture = chess->nonCapturingMoves(is_white);
 
+    // check the paw
+
     if (capture.size() > 0) {
         // random move
         int random = generateRandomNumber(0, capture.size() - 1);
@@ -221,19 +227,30 @@ vector<ChessMove> non_capture = chess->nonCapturingMoves(is_white);
         game_scoure->at(2)++;
         // update the piece
         *piece = " " + presentPiecesAsUnicode(capture[random].piece->latin1Representation()) + " ";
-
-
-
         
     } else if (non_capture.size() > 0) {
     // random move
         int random = generateRandomNumber(0, non_capture.size() - 1);
         chess->movePiece(non_capture[random]);
         *piece = " " + presentPiecesAsUnicode(non_capture[random].piece->latin1Representation()) + " ";
+
+        // check if the pawn is in the last row
+      
+        // int pawn_y = is_white ? 0 : 7;
+        // char c = (pawn_y == 0) ? 'P' : 'p';
+        // for (int pawn_x = 0; pawn_x < 8; pawn_x++) {
+        //     if (chess->m_state(pawn_x, pawn_y) != nullptr && chess->m_state(pawn_x, pawn_y)->latin1Representation() == c) {
+        //         // the pawn is in the last row
+        //         switchPawn(chess, pawn_x, pawn_y, is_white);
+        //     }
+        // }
+
+        
     } else {
-        cout << " No moves left for the AI 1 player " << endl;
+        cout << (is_white ? " white, " : " black, ") << " No moves left for the AI 1 player " << endl;
     }
 }
+
 
 void ChessBoard::ai2_moves(ChessBoard *chess, bool is_white, vector<int> *game_scoure, string *piece) {
 
@@ -330,7 +347,100 @@ void ChessBoard::ai2_moves(ChessBoard *chess, bool is_white, vector<int> *game_s
         }
         
     } else {
-        cout << " No moves left for the AI 2 player " << endl;
+        cout << "Color " << (is_white ? " white, " : " black, ") << " No moves left for the AI 2 player " << endl;
     }
 
+}
+
+/*
+@function: check if the pawn is in the last row
+@input: the piece that we want to check
+@output: the position(x,y) and true if the pawn is in the last/first row and (0, 0) and false otherwise
+*/ 
+  pair<vector<int>, bool> ChessBoard::checkPawn(ChessPiece *piece) {
+    // check if the pawn is in the last row
+    int pawn_y =  piece->isWhite() ? 0 : 7;
+    char c = (pawn_y == 0) ? 'P' : 'p';
+    for (int pawn_x = 0; pawn_x < 8; pawn_x++) {
+        if (m_state(pawn_x, pawn_y) != nullptr && m_state(pawn_x, pawn_y)->latin1Representation() == c) {
+            // the pawn is in the last row
+            return make_pair(vector<int>{pawn_x, pawn_y}, true);
+        }
+        }
+    return make_pair(vector<int>{0, 0}, false);
+  }
+
+/*  
+@function: switch the pawn to a random piece
+@input: the position of the pawn and the color of the pawn
+
+*/
+
+void ChessBoard::switchPawn(ChessBoard *chess, int pawn_x, int pawn_y, bool is_white_p){
+    // vector of the white pieces
+    vector<char> white_pieces = {'Q', 'B', 'N', 'R', 'K'};
+    // vector of the black pieces
+    vector<char> black_pieces = {'q', 'b', 'n', 'r', 'k'};
+    // chose random 
+    int random = generateRandomNumber(0, 4);
+
+    removePiece(pawn_x, pawn_y, chess->m_state(pawn_x, pawn_y).get(), true);
+
+        // check if the pawn is in the last row
+    if (is_white_p) {
+        cout << "A white pawn has been promoted to a " << presentPiecesAsUnicode(white_pieces[random]) << endl;
+        switch (white_pieces[random])
+        {
+        case 'Q':
+            chess->m_state(pawn_x, pawn_y) = make_shared<Queen>(pawn_x, pawn_y, is_white_p, chess);
+            m_white_pieces.push_back(chess->m_state(pawn_x, pawn_y).get());
+            break;
+        case 'B':
+            chess->m_state(pawn_x , pawn_y) = make_shared<Bishop>(pawn_x, pawn_y, is_white_p, chess);
+            m_white_pieces.push_back(chess->m_state(pawn_x, pawn_y).get());
+            break;
+        case 'N':
+            chess->m_state(pawn_x , pawn_y) = make_shared<Knight>(pawn_x, pawn_y, is_white_p, chess);
+            m_white_pieces.push_back(chess->m_state(pawn_x, pawn_y).get());
+            break;
+        case 'R':
+            chess->m_state(pawn_x , pawn_y) = make_shared<Rook>(pawn_x, pawn_y, is_white_p, chess);
+            m_white_pieces.push_back(chess->m_state(pawn_x, pawn_y).get());
+            break;
+        case 'K':
+            chess->m_state(pawn_x , pawn_y) = make_shared<King>(pawn_x, pawn_y, is_white_p, chess);
+            m_white_pieces.push_back(chess->m_state(pawn_x, pawn_y).get());
+            break;
+        default:
+            break;
+        }
+
+    } else {
+        cout << "A black pawn has been promoted to a " << presentPiecesAsUnicode(black_pieces[random]) << endl;
+        switch (black_pieces[random])
+        {
+        case 'q':
+            chess->m_state(pawn_x , pawn_y) = make_shared<Queen>(pawn_x, pawn_y, is_white_p, chess);
+            m_black_pieces.push_back(chess->m_state(pawn_x , pawn_y).get());
+            break;
+        case 'b':
+            chess->m_state(pawn_x , pawn_y) = make_shared<Bishop>(pawn_x, pawn_y, is_white_p, chess);
+            m_black_pieces.push_back(chess->m_state(pawn_x , pawn_y).get());
+            break;
+        case 'n':
+            chess->m_state(pawn_x , pawn_y) = make_shared<Knight>(pawn_x, pawn_y, is_white_p, chess);
+            m_black_pieces.push_back(chess->m_state(pawn_x , pawn_y).get());
+            break;
+        case 'r':
+            chess->m_state(pawn_x , pawn_y) = make_shared<Rook>(pawn_x, pawn_y, is_white_p, chess);
+            m_black_pieces.push_back(chess->m_state(pawn_x , pawn_y).get());
+            break;
+        case 'k':
+            chess->m_state(pawn_x , pawn_y) = make_shared<King>(pawn_x, pawn_y, is_white_p, chess);
+            m_black_pieces.push_back(chess->m_state(pawn_x , pawn_y).get());
+            break;
+        }
+    }
+    
+    
 }

@@ -18,7 +18,11 @@ class ChessPiece {
     friend void ChessBoard::printBoard(ChessBoard *cb);
     friend void ChessBoard::ai1_moves(ChessBoard *, bool, vector<int> *, string*);
     friend void ChessBoard::ai2_moves(ChessBoard *, bool, vector<int> *, string*);
-    friend void ChessBoard::removePiece(int, int, ChessPiece *);
+    friend void ChessBoard::removePiece(int, int, ChessPiece *, bool);
+
+    friend void ChessBoard::switchPawn(ChessBoard *, int, int, bool);
+    friend pair<vector<int>, bool> ChessBoard::checkPawn(ChessPiece *);
+
 
 
 protected:                               // protected will cause problems with multiple inheritance

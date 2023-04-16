@@ -9,7 +9,7 @@
 #include <random>
 using namespace std;
 
-
+   
 int main() {
 
 ChessBoard chess;
@@ -22,6 +22,16 @@ ChessBoard chess;
     s << "........" << endl;
     s << "PPPPPPPP" << endl;
     s << "RNBQKBNR" << endl;
+    
+
+    // s << "........" << endl;
+    // s << "pppppppp" << endl;
+    // s << "........" << endl;
+    // s << "........" << endl;
+    // s << "........" << endl;
+    // s << "........" << endl;
+    // s << "PPPPPPPP" << endl;
+    // s << "........" << endl;
     s >> chess;
     vector<ChessMove> v = chess.capturingMoves(true);
     // print the board
@@ -57,4 +67,5 @@ ChessBoard chess;
         cout << endl;
     }
 }
+
 
