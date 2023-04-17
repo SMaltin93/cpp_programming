@@ -23,6 +23,8 @@ class ChessPiece {
     friend void ChessBoard::switchPawn(ChessBoard *, int, int, bool);
     friend pair<vector<int>, bool> ChessBoard::checkPawn(ChessPiece *);
 
+    friend void ChessBoard::moveBack(int, int, int, int, ChessPiece *);
+
 
 
 protected:                               // protected will cause problems with multiple inheritance

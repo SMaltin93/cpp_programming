@@ -35,7 +35,8 @@ public:
   void printBoard(ChessBoard  *cb);
   string presentPiecesAsUnicode(char piece);
   void ai1_moves(ChessBoard *, bool, vector<int>*, string*);
-  void ai2_moves(ChessBoard *, bool, vector<int>*, string*);  
+  void ai2_moves(ChessBoard *, bool, vector<int>*, string*); 
+  void moveBack(int, int, int, int, ChessPiece *); 
   int generateRandomNumber(int const, int const);  
 
   pair<vector<int>, bool> checkPawn(ChessPiece *);

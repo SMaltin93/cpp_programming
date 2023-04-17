@@ -34,6 +34,21 @@ void ChessBoard::movePiece(ChessMove chess_move) {
  
 }
 
+
+void ChessBoard::moveBack(int from_x, int from_y, int to_x, int to_y, ChessPiece *piece) {
+    m_state(from_x, from_y) = m_state(to_x, to_y);
+    m_state(to_x, to_y) = nullptr;
+    piece->m_x = from_x;
+    piece->m_y = from_y;
+
+    // add to m_white_pieces or m_black_pieces
+    if (piece->isWhite()) {
+        m_white_pieces.push_back(piece);
+    } else {
+        m_black_pieces.push_back(piece);
+    }
+}
+
 vector<ChessMove> ChessBoard::capturingMoves(bool is_white) {
     vector<ChessMove> moves;
     vector<ChessPiece *> pieces = is_white ? m_white_pieces : m_black_pieces;
@@ -254,7 +269,7 @@ vector<ChessMove> non_capture = chess->nonCapturingMoves(is_white);
 
 void ChessBoard::ai2_moves(ChessBoard *chess, bool is_white, vector<int> *game_scoure, string *piece) {
 
-    vector<ChessMove> capture = chess->capturingMoves(is_white);
+vector<ChessMove> capture = chess->capturingMoves(is_white);
     vector<ChessMove> non_capture = chess->nonCapturingMoves(is_white);
     bool can_capture = false;
 
@@ -272,36 +287,14 @@ void ChessBoard::ai2_moves(ChessBoard *chess, bool is_white, vector<int> *game_s
             chess->movePiece(move);
             vector<ChessMove> opponent_capture = chess->capturingMoves(!is_white);
             if (opponent_capture.size() > 0) {
-                // delete the move from the possible moves
-                for (size_t i = 0; i < non_capture.size(); i++) {
-                    if (non_capture[i].piece == move.piece) {
-                        non_capture.erase(non_capture.begin() + i);
-                    }
-                }
                 can_capture = true;
-                chess->movePiece(ChessMove{to_x, to_y, from_x, from_y, p}); 
+                *piece = " " + presentPiecesAsUnicode(move.piece->latin1Representation()) + " ";
                 break;
             }else chess->movePiece(ChessMove{to_x, to_y, from_x, from_y, p}); 
         }
-        
-        if (can_capture) {
-            
-            if (capture.size() > 0) {
-                int random = generateRandomNumber(0, capture.size() - 1);
-                chess->movePiece(capture[random]);
-                // update the game score
-                game_scoure->at(3)++;
-                // update the piece
-                *piece = " " + presentPiecesAsUnicode(capture[random].piece->latin1Representation()) + " ";
-                can_capture = false;
-            } else {
-                int random = generateRandomNumber(0, non_capture.size() - 1);
-                chess->movePiece(non_capture[random]);
-                *piece = " " + presentPiecesAsUnicode(non_capture[random].piece->latin1Representation()) + " ";
-                can_capture = false;
-            }
 
-        } else {
+        if (!can_capture) {
+            // random move
             int random = generateRandomNumber(0, non_capture.size() - 1);
             chess->movePiece(non_capture[random]);
             *piece = " " + presentPiecesAsUnicode(non_capture[random].piece->latin1Representation()) + " ";
@@ -320,18 +313,12 @@ void ChessBoard::ai2_moves(ChessBoard *chess, bool is_white, vector<int> *game_s
             chess->movePiece(move);
             vector<ChessMove> opponent_capture = chess->capturingMoves(!is_white);
             if (opponent_capture.size() > 0) {
-                // delete the move from the possible moves
-                for (size_t i = 0; i < capture.size(); i++) {
-                    if (capture[i].piece == move.piece) {
-                        capture.erase(capture.begin() + i);
-                    }
-                }
-                chess->movePiece(ChessMove{to_x, to_y, from_x, from_y, p});
+                *piece = " " + presentPiecesAsUnicode(move.piece->latin1Representation()) + " ";
                 can_capture = true;
                 break;
             } else chess->movePiece(ChessMove{to_x, to_y, from_x, from_y, p});  
 
-        }  if (can_capture) {
+        }  if (!can_capture) {
             // random move
             int random = generateRandomNumber(0, capture.size() - 1);
             chess->movePiece(capture[random]);
@@ -340,10 +327,6 @@ void ChessBoard::ai2_moves(ChessBoard *chess, bool is_white, vector<int> *game_s
             // update the piece
             *piece = " " + presentPiecesAsUnicode(capture[random].piece->latin1Representation()) + " ";
             can_capture = false;
-        } else {
-            int random = generateRandomNumber(0, non_capture.size() - 1);
-            chess->movePiece(non_capture[random]);
-            *piece = " " + presentPiecesAsUnicode(non_capture[random].piece->latin1Representation()) + " ";
         }
         
     } else {
