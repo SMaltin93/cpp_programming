@@ -11,7 +11,7 @@ main:
 ai: main
 	./chess
 
-testin: all
+test_in: all
 	./chess < tests.in 
 
 git:

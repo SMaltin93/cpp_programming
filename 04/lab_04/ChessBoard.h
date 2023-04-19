@@ -39,9 +39,11 @@ public:
   void moveBack(int, int, int, int, ChessPiece *); 
   int generateRandomNumber(int const, int const);  
 
-  pair<vector<int>, bool> checkPawn(ChessPiece *);
+  pair<vector<int>, bool> checkPawn(ChessMove const *);
   void switchPawn(ChessBoard *, int, int, bool);
 
+ void switchAI2(ChessBoard *, int, int, bool, char);
+ 
                 
 
 };

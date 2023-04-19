@@ -25,12 +25,12 @@ ChessBoard chess;
     
 
     // s << "........" << endl;
-    // s << "pppppppp" << endl;
-    // s << "........" << endl;
-    // s << "........" << endl;
-    // s << "........" << endl;
-    // s << "........" << endl;
     // s << "PPPPPPPP" << endl;
+    // s << "........" << endl;
+    // s << "........" << endl;
+    // s << "........" << endl;
+    // s << "........" << endl;
+    // s << "pppppppp" << endl;
     // s << "........" << endl;
     s >> chess;
     vector<ChessMove> v = chess.capturingMoves(true);
@@ -55,7 +55,7 @@ ChessBoard chess;
     cout << "<<<<<<<<<<<<<<<<<<<<<<< Game started >>>>>>>>>>>>>>>>>>>>>>>>>" << endl;
   
 
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < 20; i++) {
         if (i % 2 == 0) {
             chess.ai1_moves(&chess, ai1, &game_scoure, &white_piec_moves);
             cout << red << "The AI_1 has moved " << ++game_scoure[0] << " times and total captured " << game_scoure[2] << ", The" << white_piec_moves << " has moved" << reset << endl;

@@ -21,7 +21,12 @@ class ChessPiece {
     friend void ChessBoard::removePiece(int, int, ChessPiece *, bool);
 
     friend void ChessBoard::switchPawn(ChessBoard *, int, int, bool);
-    friend pair<vector<int>, bool> ChessBoard::checkPawn(ChessPiece *);
+    friend void ChessBoard::switchAI2(ChessBoard *, int, int, bool, char);
+   
+
+    friend pair<vector<int>, bool> ChessBoard::checkPawn(ChessMove const *);
+
+    
 
     friend void ChessBoard::moveBack(int, int, int, int, ChessPiece *);
 
