@@ -244,8 +244,7 @@ istream & operator>>(istream & is, Complex<T> &rhs) {
 } 
 
 // insperations from https://en.cppreference.com/w/cpp/numeric/complex/operator%22%22i
- // the input 5_i, or 5.0_i should be ok  
- Complex<double> operator""_i(unsigned long long  imag) {
+ Complex<double> operator""_i(unsigned long long imag) {
     return Complex<double>(0, imag);
 }
 

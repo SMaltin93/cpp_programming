@@ -59,12 +59,6 @@ class Complex {
       
       bool operator<(const Complex<T> &rhs) const;
 
-      // //
-
-
-      // perator << 
-      
-
     private:
         double real;
         double imag;
