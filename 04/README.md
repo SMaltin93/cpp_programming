@@ -1,4 +1,4 @@
-# TODO
+
 
 * To run the program, navigate to the /lab_04 directory and execute the command " make game ai1='1' ai2='2' " to run the program with two AI players. Note that setting ai1 to 1 and ai2 to 2 will assign the white color to AI_1 and the black color to AI_2. You can run the command "make test_in" to run through the provided tests.
 
