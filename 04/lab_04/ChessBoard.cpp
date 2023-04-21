@@ -7,8 +7,8 @@
 #include "Pawn.h"
 #include <wchar.h>
 #include <string>
-#include <iostream>
- 
+#include <iostream> 
+  
 // Library effective with Windows
 #include <iostream>
 #include <unistd.h>
@@ -264,7 +264,7 @@ vector<ChessMove> non_capture = chess->nonCapturingMoves(is_white);
 }
 
 
-void ChessBoard::ai2_moves(ChessBoard *chess, bool is_white, vector<int> *game_scoure, string *piece) {
+void ChessBoard::ai2_moves(ChessBoard *chess, bool is_white, vector<int> *game_scoure, string *piece) { 
 
 vector<ChessMove> capture = chess->capturingMoves(is_white);
 vector<ChessMove> non_capture = chess->nonCapturingMoves(is_white);
@@ -349,7 +349,7 @@ ChessMove this_move;
             can_capture = false;
         }  
     } else {
-        cout << "Color " << (is_white ? " white, " : " black, ") << " No moves left for the AI 2 player " << endl;
+        cout << "Color " << (is_white ? " white, " : " black, ") << " No moves left for the AI 2 player " << endl; 
     }
 
 }

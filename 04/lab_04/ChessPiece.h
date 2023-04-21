@@ -12,6 +12,8 @@
 using namespace std;
 
 class ChessPiece {
+
+
     friend void ChessBoard::movePiece(ChessMove p);
     friend ChessBoard & operator<<(ostream & os, ChessBoard & cb);
     // friend printBoard(ChessBoard & cb);
@@ -32,7 +34,7 @@ class ChessPiece {
 
 
 
-protected:                               // protected will cause problems with multiple inheritance
+protected:                            
     int m_x, m_y;
     bool m_is_white;
     ChessBoard* m_board;

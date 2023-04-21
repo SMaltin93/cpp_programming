@@ -8,8 +8,8 @@ debug:
 main: 
 	g++ -Wall -o chess main.cpp ChessBoard.cpp ChessPiece.cpp King.cpp Queen.cpp Bishop.cpp Knight.cpp Rook.cpp Pawn.cpp
 
-ai: main
-	./chess
+game: main
+	./chess $(ai1) $(ai2)
 
 test_in: all
 	./chess < tests.in 
@@ -18,3 +18,6 @@ git:
 	git add .
 	git commit -m "$(input)"
 	git push
+
+clean:
+	rm -f *.o
