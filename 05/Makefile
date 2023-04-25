@@ -1,16 +1,22 @@
 
-bintree: bintree.o
-	g++ -o bintree bintree.o
+bintree: compil.cpp bintree.h
+	g++ -o compil compil.cpp
 
-all: mytest_runner
+balance : testbalance.cpp bintree.h
+	g++ -o testbalance testbalance.cpp
+	
+testbalance : balance
+	./testbalance
 
-myrunner.cpp: mytest.h bintree.cpp
+all: bintree tests
+
+myrunner.cpp: mytest.h bintree.h
 	python3 ../cxxtest-4.4/bin/cxxtestgen --error-printer -o myrunner.cpp mytest.h
 
 mytest_runner: myrunner.cpp 
 	g++ -o mytest_runner myrunner.cpp -I../cxxtest-4.4 
 
-run: mytest_runner
+tests: mytest_runner
 	./mytest_runner
 
 clean:

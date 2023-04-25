@@ -5,7 +5,7 @@
 
 using namespace std;
 
-void repot(const array<pair<int, int>, 800> &results) {
+void report(const array<pair<int, int>, 800> &results) {
  
     double average_height = 0;
     int highest_max_height = 0;
@@ -69,7 +69,7 @@ int main() {
         next_permutation(values.begin(), values.end());
     }
 
-    repot(results);
+    report(results);
 
     return 0;
 

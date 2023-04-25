@@ -1,12 +1,12 @@
 
 
 #include <bits/stdc++.h>
-using namespace std;
-#include "bintree.h"
+#include "bintree.h" 
 
 // insert key and value in the binary tree,  initialize the new nodes left and right to nullptr.
 // If the key already exists the value is overwritten, duplicate keys are not allowed. 
 // Key is required to have implemented operator<
+using namespace std;
 
 void insert(Node *&p, int key, double to_be_inserted) {
     if (p == nullptr) {
@@ -133,10 +133,6 @@ bool is_balanced(Node *p) {
 
 // Extra functions 
 
-// print_tree_inorder - prints the tree as a tree, not as a list
-
-
-
 // max replacement - replaces the node with the maximum value in the left subtree
 
 void max_replacement(Node *&p) {
@@ -148,6 +144,9 @@ void max_replacement(Node *&p) {
         max_replacement(p->right);
     }
 }
+
+
+
 
 
 

@@ -23,8 +23,6 @@ void print_tree_inorder(Node *p);
 // look for max replecement
 void max_replacement(Node *&p);
 
-
-
 unsigned int max_height(Node *p); // unsigned int menas that it can't be negative
 unsigned int min_height(Node *p);
 unsigned int size(Node *p);
