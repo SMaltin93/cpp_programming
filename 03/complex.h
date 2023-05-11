@@ -13,7 +13,6 @@ class Complex {
       Complex();
       Complex(double real); //not : make it non explicit
       constexpr explicit Complex(double, double );
-      // constexpr explicit Complex(double real, double imaginary) : real(real), imag(imaginary) {}
       Complex(const Complex &rhs); // copy constructor
       Complex(Complex && rhs) noexcept; // move constructor
       
