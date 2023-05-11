@@ -27,10 +27,7 @@ class Complex {
 
       // arithmetic operators
       Complex operator+(const Complex &rhs) const;
-      // handel Complex k = 1 + 5_i;
-      // // friend means that this function can access private members of the class, for example, Complex::real and Complex::imag in this case.
-    
-
+      
       Complex operator-(const Complex &rhs) const;
       Complex operator*(const Complex &rhs) const;
       //multiplcation operator for scalar multiplication
