@@ -11,6 +11,14 @@ struct Node {
     double data;
     Node * right;
     Node * left;
+
+    Node() : key(0), data(0), right(nullptr), left(nullptr) {}
+    Node(int key, double data) : key(key), data(data), right(nullptr), left(nullptr) {}
+    
+    ~Node() {
+        delete left;
+        delete right;
+    }
 };
 
 void insert(Node *&p, int key, double to_be_inserted); // 

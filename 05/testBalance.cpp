@@ -65,7 +65,10 @@ int main() {
         }
         results[i] = make_pair(max_height(root), min_height(root));
 
-        // reshuffle the values
+        // delete the tree
+        delete_tree(root);
+
+        
         next_permutation(values.begin(), values.end());
     }
 
