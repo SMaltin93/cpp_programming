@@ -321,10 +321,7 @@ void test_max_replacement() {
         TS_ASSERT(true);
     }
 
-
     delete_tree(root);
-
-
 }
 
 

@@ -48,8 +48,8 @@ void report(const array<pair<int, int>, 800> &results) {
 
 int main() {
    vector <int> values(9000);
-    for (int i = 1; i <= 9000; i++) {
-         values[i] = i;
+    for (int i = 0; i < 9000; i++) {
+         values[i] = i + 1;
     }
 
     shuffle(values.begin(), values.end(), default_random_engine(930103));
